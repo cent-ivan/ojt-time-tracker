@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+:root {
+    --font-family: Arial, Verdana, sans-serif
+}
+
+.custom-btn {
+    padding: 4rem;
+    background-color: #A19F9F;
+    border-radius: 8px;
+
+    font-size: 2.25rem;
+    
+}
+.custom-btn:hover {
+    background-color: #c7c4c4;
+}
+
+@media (width < 700px) {
+    .custom-btn {
+        padding: 2.5rem;
+    }
+}
+
+@media (width < 40rem) {
+    .custom-btn {
+        padding: 2rem;
+    }
+}
