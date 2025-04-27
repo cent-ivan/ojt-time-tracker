@@ -1,29 +1,37 @@
 @import "tailwindcss";
 
 :root {
-    --font-family: Arial, Verdana, sans-serif
+  --font-family: Arial, Verdana, sans-serif;
 }
 
+/* Choose Signup utility*/
 .custom-btn {
-    padding: 4rem;
-    background-color: #A19F9F;
-    border-radius: 8px;
+  @apply p-24
+    rounded-lg 
+    text-[2.25rem]
+    bg-[#A19F9F] hover:bg-[#c7c4c4]
+    max-md:p-12 
+    max-sm:p-8 max-sm:h-full max-sm:w-full;
+}
 
-    font-size: 2.25rem;
+/* Register text box utility */
+.register-txt-box {
+  @apply rounded-lg 
+  px-2
+  py-4
+  h-12
+  opacity-80
+  bg-[#FAFAFA] hover:bg-[#FFFFFF] 
+  focus:outline-0 focus:border-2 focus:bg-[#FFFFFF];
+}
+
+.register-select-box {
+  @apply rounded-lg 
+  px-2
+
+  h-16
+  opacity-80
+  bg-[#FAFAFA] hover:bg-[#FFFFFF] 
+  focus:outline-0 focus:border-2 focus:bg-[#FFFFFF];
+}
     
-}
-.custom-btn:hover {
-    background-color: #c7c4c4;
-}
-
-@media (width < 700px) {
-    .custom-btn {
-        padding: 2.5rem;
-    }
-}
-
-@media (width < 40rem) {
-    .custom-btn {
-        padding: 2rem;
-    }
-}

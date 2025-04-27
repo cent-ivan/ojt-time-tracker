@@ -1,6 +1,9 @@
 from flask import render_template, redirect, url_for, request
 from . import auth_bp
-from .auth_repository import create_school, get_adviser
+from .auth_repository import insert_adviser, insert_student, get_school_id, list_schools
+
+from ...extensions import bcrypt
+
 
 @auth_bp.route('/student-login')
 def student_login():
@@ -20,13 +23,59 @@ def adviser_signup():
     if request.method == 'GET':
         return render_template('auth/signup/adviser_signup.html')
     else:
-        #check first if the user is a student or adviser, if the user is an adviser create a school data check auth_repository
-        pass
+        name = request.form.get('name')
+        email = request.form.get('email')
+        school = request.form.get('school')
+        password= request.form.get('password')
+        uid = '13ehjbd23'#"Return uid when registered in firebase"
+
+        hashed_password =  bcrypt.generate_password_hash(password).decode('utf-8')
+        qry = insert_adviser(
+            uid=uid, name=name, 
+            email=email, 
+            school=school, 
+            type = 'adviser',
+            hashed_password=hashed_password
+        )
+        if qry == '202':
+            return redirect(url_for('auth.student_login'))
+        else:
+            return qry
+
 
 @auth_bp.route('/student-signup', methods=['GET', 'POST'])
 def student_signup():
     if request.method == 'GET':
-        return render_template('auth/signup/student_signup.html')
+        schools = list_schools()
+        return render_template(template_name_or_list='auth/signup/student_signup.html', schools=schools)
     else:
-        #check first if the user is a student or adviser, if the user is an adviser create a school data check auth_repository
-        pass
+        name = request.form.get('name')
+        email = request.form.get('email')
+        school_name = request.form.get('school')
+        company = request.form.get('company')
+        total_hours = request.form.get('ojt-hours')
+        password = request.form.get('password')
+        uid = '13ehjb543'#"Return uid when registered in firebase"
+
+        schoolId = get_school_id(school_name)
+        hashed_password =  bcrypt.generate_password_hash(password).decode('utf-8')
+        
+        qry = insert_student(
+            uid = uid,
+            name = name,
+            email=email,
+            school_id = schoolId,
+            company = company,
+            total_hours = total_hours,
+            type = "student",
+            password= hashed_password
+        )
+        if qry == '202':
+            return redirect(url_for('auth.student_login'))
+        else:
+            return qry
+        
+@auth_bp.route('/test')
+def test():
+    result = get_school_id('Gwapo University')
+    return f"Result: {result}"

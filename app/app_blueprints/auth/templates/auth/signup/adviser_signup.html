@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup - OJT Time Tracker</title>
+    
+    <link rel="stylesheet" href="../../../../static/css/main.css">
+</head>
+<body class="
+    h-screen p-8 
+    bg-[#D1E0C8] 
+    font-(family-name:--font-family)
+">
+    <h2 class="text-2xl font-bold">Adviser Registration</h2>
+
+    <form action="{{ url_for('auth.adviser_signup') }}" method="post" class="flex justify-between flex-wrap mt-5 mx-6 max-sm:mx-2">
+
+        <div class="flex flex-col w-[50%] m-2 max-md:w-full max-sm:w-full">
+            <label for="name" class="text-sm font-bold text-gray-90">Name</label>
+            <input type="text" name="name" id="name" placeholder="Enter Name" class="register-txt-box mt-2">
+        </div>
+
+        <div class="flex flex-col w-[45%] m-2 max-md:w-full max-sm:w-full">
+            <label for="email" class="text-sm font-bold text-gray-90" >Email</label>  
+            <input type="text" name="email" id="email" placeholder="Enter Email" class="register-txt-box mt-2">
+        </div>
+
+        <div class="flex flex-col w-[50%] m-2 max-md:w-full max-sm:w-full">
+            <label for="school" class="text-sm font-bold text-gray-90" >School</label>  
+            <input type="text" name="school" id="email" placeholder="Enter School" class="register-txt-box mt-2">
+        </div>
+
+
+        <div class="flex flex-col w-[50%] mt-16 mx-2 max-md:w-full max-sm:w-full max-md:mt-5 max-sm:mt-5">
+            <label for="password" class="text-sm font-bold text-gray-90" >Password</label>  
+            <input type="password" name="password" id="password" placeholder="Enter Password" class="register-txt-box mt-2">
+        </div>
+
+        <hr class="w-full mt-8 mx-2 mb-5  bg-[#000000] opacity-50 border-1">
+        
+        <button type="submit" class="rounded-lg w-50 p-4 mx-2 mb-4 bg-[#A19F9F] hover:bg-[#b7b4b4] opacity-80 font-bold">Register</button>
+    </form>
+</body>
+</html>

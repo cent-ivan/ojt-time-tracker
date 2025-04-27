@@ -7,12 +7,26 @@
 
     <link rel="stylesheet" href="../../../../../static/css/main.css">
 </head>
-<body class= "h-screen p-3 bg-[#D1E0C8] font-(family-name:--font-family)">
-    <h2 class="text-2xl font-bold">Registration</h2>
+<body class= "
+    h-screen p-8 
+    bg-[#D1E0C8] 
+    font-(family-name:--font-family)"
+>
+    <h1 class="text-4xl font-bold">Registration</h1>
 
-    <div class="flex items-center justify-center max-sm:flex-col gap-[10%] h-[80%]">
-        <button class="custom-btn">Student</button> 
-        <button class="custom-btn">Adviser</button>
+    <div class="
+        flex items-center justify-center flex-wrap gap-6 
+        h-[80%] p-3 
+        max-sm:flex-col
+    ">
+        <a href="{{ url_for('auth.student_signup') }}" class="max-sm:h-[30%] max-sm:w-[75%]">
+            <button type="button" class="custom-btn">Student</button> 
+        </a>
+        
+        <a href="{{ url_for('auth.adviser_signup') }}" class="max-sm:h-[30%] max-sm:w-[75%]">
+            <button class="custom-btn">Adviser</button>
+        </a>
+        
     </div>
     
 </body>
