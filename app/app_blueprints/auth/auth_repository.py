@@ -1,5 +1,7 @@
+from flask import redirect, url_for
 from ...extensions import db, insert, SQLAlchemyError,select
 from .models import SchoolsModel, AdviserModel, StudentModel
+
 
 def get_adviser(uid) -> AdviserModel:
     user = AdviserModel.query.get(uid)
@@ -22,14 +24,20 @@ def list_schools() -> list:
 #convert word to school id
 def get_school_id(school_name):
     try:
-        school = SchoolsModel.query.all()
-        return school
+        school = SchoolsModel.query.filter(SchoolsModel.schoolName==school_name).first()
+        return school.schoolId
     except SQLAlchemyError as e:
          return f'An error returned {str(e)}'
 
 
 def insert_student(**user) -> str:
     try:
+        #check first if the email is unique
+        email = AdviserModel.query.filter(AdviserModel.email==user['email']).first()
+        
+        if email:
+            return redirect(url_for('core.signup_error', err_type='email'))
+        
         data = StudentModel(
             studentId =  user['uid'],
             studentName = user['name'],
@@ -49,12 +57,20 @@ def insert_student(**user) -> str:
       
 def insert_adviser(**user) -> str:
     try:
-        data = AdviserModel(adviserId=user['uid'], adviserName=user['name'], email=user['email'], schoolName=user['school'], userType=user['type'], password = user['hashed_password'])
-        qry = db.session.add(data)
+        school = AdviserModel.query.filter(AdviserModel.schoolName==user['school']).first()
+        email = AdviserModel.query.filter(AdviserModel.email==user['email']).first()
         
-        create_school(school = user['school'], adviser_id = user['uid'])
-        db.session.commit()
-        return '202'
+        if school:
+            if email:
+                return redirect(url_for('core.signup_error', err_type='email'))
+            return redirect(url_for('core.signup_error', err_type='school'))
+        else:
+            data = AdviserModel(adviserId=user['uid'], adviserName=user['name'], email=user['email'], schoolName=user['school'], userType=user['type'], password = user['hashed_password'])
+            db.session.add(data)
+            
+            create_school(school = user['school'], adviser_id = user['uid'])
+            db.session.commit()
+            return '202'
     except SQLAlchemyError as e:
         return f'An error returned {str(e)}'
 

@@ -11,7 +11,7 @@
     text-[2.25rem]
     bg-[#A19F9F] hover:bg-[#c7c4c4]
     max-md:p-12 
-    max-sm:p-8 max-sm:h-full max-sm:w-full;
+    max-sm:h-full max-sm:w-full max-sm:p-8 max-sm:text-[1.25rem];
 }
 
 /* Register text box utility */

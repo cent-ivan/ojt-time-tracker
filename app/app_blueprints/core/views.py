@@ -3,5 +3,6 @@ from . import core_bp
 
 @core_bp.route('/')
 def land_page():
-    message = "Hello, World"
+    message = "This is a landing page"
     return render_template(template_name_or_list='landing_page.html', message=message)
+

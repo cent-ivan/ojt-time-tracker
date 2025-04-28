@@ -18,6 +18,8 @@ def adviser_login():
 def choose_signup():
     return render_template('auth/signup/choose_signup.html')
 
+
+#STUDENT SIGNUP
 @auth_bp.route('/adviser-signup', methods=['GET', 'POST'])
 def adviser_signup():
     if request.method == 'GET':
@@ -27,7 +29,7 @@ def adviser_signup():
         email = request.form.get('email')
         school = request.form.get('school')
         password= request.form.get('password')
-        uid = '13ehjbd23'#"Return uid when registered in firebase"
+        uid = '180j193'#"Return uid when registered in firebase"
 
         hashed_password =  bcrypt.generate_password_hash(password).decode('utf-8')
         qry = insert_adviser(
@@ -43,6 +45,7 @@ def adviser_signup():
             return qry
 
 
+#ADVISER SIGNUP
 @auth_bp.route('/student-signup', methods=['GET', 'POST'])
 def student_signup():
     if request.method == 'GET':
@@ -55,7 +58,7 @@ def student_signup():
         company = request.form.get('company')
         total_hours = request.form.get('ojt-hours')
         password = request.form.get('password')
-        uid = '13ehjb543'#"Return uid when registered in firebase"
+        uid = '13ehjc544'#"Return uid when registered in firebase"
 
         schoolId = get_school_id(school_name)
         hashed_password =  bcrypt.generate_password_hash(password).decode('utf-8')
@@ -74,8 +77,5 @@ def student_signup():
             return redirect(url_for('auth.student_login'))
         else:
             return qry
-        
-@auth_bp.route('/test')
-def test():
-    result = get_school_id('Gwapo University')
-    return f"Result: {result}"
+
+

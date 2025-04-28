@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: fb17b9ef52ab
+Revision ID: 1a49492f88f1
 Revises: 
-Create Date: 2025-04-27 21:23:55.614852
+Create Date: 2025-04-28 22:07:41.194636
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'fb17b9ef52ab'
+revision = '1a49492f88f1'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -26,11 +26,9 @@ def upgrade():
     sa.Column('type', sa.String(length=50), nullable=False),
     sa.Column('password', sa.String(length=255), nullable=False),
     sa.PrimaryKeyConstraint('adviser_id'),
-    sa.UniqueConstraint('adviser_name'),
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('password'),
-    sa.UniqueConstraint('school_name'),
-    sa.UniqueConstraint('type')
+    sa.UniqueConstraint('school_name')
     )
     op.create_table('schoolstbl',
     sa.Column('school_id', sa.Integer(), nullable=False),
@@ -42,20 +40,18 @@ def upgrade():
     )
     op.create_table('studentstbl',
     sa.Column('student_id', sa.String(length=255), nullable=False),
-    sa.Column('studentName', sa.String(length=50), nullable=False),
+    sa.Column('student_name', sa.String(length=50), nullable=False),
     sa.Column('email', sa.String(length=50), nullable=False),
     sa.Column('school_id', sa.Integer(), nullable=True),
-    sa.Column('companyName', sa.String(length=50), nullable=False),
-    sa.Column('totalHours', sa.Integer(), nullable=False),
-    sa.Column('userType', sa.String(length=50), nullable=False),
+    sa.Column('company_name', sa.String(length=50), nullable=False),
+    sa.Column('total_hours', sa.Integer(), nullable=False),
+    sa.Column('type', sa.String(length=50), nullable=False),
     sa.Column('password', sa.String(length=255), nullable=False),
     sa.ForeignKeyConstraint(['school_id'], ['schoolstbl.school_id'], ),
     sa.PrimaryKeyConstraint('student_id'),
-    sa.UniqueConstraint('companyName'),
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('password'),
-    sa.UniqueConstraint('studentName'),
-    sa.UniqueConstraint('userType')
+    sa.UniqueConstraint('student_name')
     )
     op.create_table('ojtlisttbl',
     sa.Column('id', sa.Integer(), nullable=False),

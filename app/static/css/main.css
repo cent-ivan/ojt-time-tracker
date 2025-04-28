@@ -8,6 +8,7 @@
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
     --color-red-500: oklch(63.7% 0.237 25.331);
+    --color-sky-500: oklch(68.5% 0.169 237.323);
     --spacing: 0.25rem;
     --text-sm: 0.875rem;
     --text-sm--line-height: calc(1.25 / 0.875);
@@ -200,8 +201,14 @@
   .flex {
     display: flex;
   }
-  .h-\[80\%\] {
-    height: 80%;
+  .table {
+    display: table;
+  }
+  .h-\[70\%\] {
+    height: 70%;
+  }
+  .h-full {
+    height: 100%;
   }
   .h-screen {
     height: 100vh;
@@ -220,6 +227,12 @@
   }
   .w-full {
     width: 100%;
+  }
+  .border-collapse {
+    border-collapse: collapse;
+  }
+  .resize {
+    resize: both;
   }
   .flex-col {
     flex-direction: column;
@@ -242,6 +255,10 @@
   .rounded-lg {
     border-radius: var(--radius-lg);
   }
+  .border {
+    border-style: var(--tw-border-style);
+    border-width: 1px;
+  }
   .border-1 {
     border-style: var(--tw-border-style);
     border-width: 1px;
@@ -261,11 +278,11 @@
   .p-4 {
     padding: calc(var(--spacing) * 4);
   }
+  .p-5 {
+    padding: calc(var(--spacing) * 5);
+  }
   .p-8 {
     padding: calc(var(--spacing) * 8);
-  }
-  .p-10 {
-    padding: calc(var(--spacing) * 10);
   }
   .font-\(family-name\:--font-family\) {
     font-family: var(--font-family);
@@ -282,6 +299,15 @@
     font-size: var(--text-sm);
     line-height: var(--tw-leading, var(--text-sm--line-height));
   }
+  .text-\[1\.25rem\] {
+    font-size: 1.25rem;
+  }
+  .text-\[1rem\] {
+    font-size: 1rem;
+  }
+  .text-\[2\.25rem\] {
+    font-size: 2.25rem;
+  }
   .font-bold {
     --tw-font-weight: var(--font-weight-bold);
     font-weight: var(--font-weight-bold);
@@ -289,11 +315,21 @@
   .text-red-500 {
     color: var(--color-red-500);
   }
+  .text-sky-500 {
+    color: var(--color-sky-500);
+  }
+  .underline {
+    text-decoration-line: underline;
+  }
   .opacity-50 {
     opacity: 50%;
   }
   .opacity-80 {
     opacity: 80%;
+  }
+  .outline {
+    outline-style: var(--tw-outline-style);
+    outline-width: 1px;
   }
   .hover\:bg-\[\#b7b4b4\] {
     &:hover {
@@ -325,6 +361,11 @@
   .max-sm\:h-\[30\%\] {
     @media (width < 40rem) {
       height: 30%;
+    }
+  }
+  .max-sm\:h-full {
+    @media (width < 40rem) {
+      height: 100%;
     }
   }
   .max-sm\:w-\[75\%\] {
@@ -367,6 +408,9 @@
   }
   @media (width < 40rem) {
     padding: calc(var(--spacing) * 8);
+  }
+  @media (width < 40rem) {
+    font-size: 1.25rem;
   }
 }
 .register-txt-box {

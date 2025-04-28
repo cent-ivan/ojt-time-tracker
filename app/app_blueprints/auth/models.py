@@ -6,10 +6,10 @@ class AdviserModel(db.Model, UserMixin):
     __tablename__ = 'adviserstbl'
 
     adviserId = Column(String(255), primary_key=True, name='adviser_id')
-    adviserName = Column(String(50), nullable=False, unique=True, name='adviser_name')
+    adviserName = Column(String(50), nullable=False, name='adviser_name')
     email = Column(String(50), nullable=False, unique=True, name='email')
     schoolName = Column(String(50), nullable=False, unique=True, name='school_name')
-    userType = Column(String(50), nullable=False, unique=True, name='type')
+    userType = Column(String(50), nullable=False, name='type')
     password = Column(String(255), nullable=False, unique=True, name='password')
 
     school = orm.relationship('SchoolsModel', back_populates='adviser')
@@ -35,13 +35,13 @@ class StudentModel(db.Model, UserMixin):
     __tablename__ = 'studentstbl'
 
     studentId =  Column(String(255), primary_key=True, name='student_id')
-    studentName = Column(String(50), nullable=False, unique=True)
-    email = Column(String(50), nullable=False, unique=True)
+    studentName = Column(String(50), nullable=False, unique=True, name='student_name')
+    email = Column(String(50), nullable=False, unique=True, name='email')
     schoolId = Column(Integer, ForeignKey('schoolstbl.school_id'), name='school_id')
-    companyName = Column(String(50), nullable=False, unique=True)
-    totalHours = Column(Integer, nullable=False)
-    userType = Column(String(50), nullable=False, unique=True)
-    password = Column(String(255), nullable=False, unique=True)
+    companyName = Column(String(50), nullable=False, name='company_name')
+    totalHours = Column(Integer, nullable=False, name='total_hours')
+    userType = Column(String(50), nullable=False, name='type')
+    password = Column(String(255), nullable=False, unique=True, name='password')
 
     ojtList = orm.relationship('OjtListModel', back_populates='student')
     timesheet = orm.relationship('TimeSheetModel', back_populates='student')

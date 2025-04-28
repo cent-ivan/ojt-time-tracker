@@ -13,21 +13,27 @@
     font-(family-name:--font-family)"
 >
     <h1 class="text-4xl font-bold">Registration</h1>
+    
+    <div class="flex items-center justify-center flex-col h-full">
+        <div class="
+            flex items-center justify-center flex-wrap gap-6 
+            h-[70%] p-3 
+            max-sm:flex-col max-sm:w-full
+        ">
+            <a href="{{ url_for('auth.student_signup') }}" class="max-sm:h-[30%] max-sm:w-[75%]">
+                <button type="button" class="custom-btn">Student</button> 
+            </a>
+            
+            <a href="{{ url_for('auth.adviser_signup') }}" class="max-sm:h-[30%] max-sm:w-[75%]">
+                <button class="custom-btn">Adviser</button>
+            </a>
+            
+        </div>
 
-    <div class="
-        flex items-center justify-center flex-wrap gap-6 
-        h-[80%] p-3 
-        max-sm:flex-col
-    ">
-        <a href="{{ url_for('auth.student_signup') }}" class="max-sm:h-[30%] max-sm:w-[75%]">
-            <button type="button" class="custom-btn">Student</button> 
-        </a>
-        
-        <a href="{{ url_for('auth.adviser_signup') }}" class="max-sm:h-[30%] max-sm:w-[75%]">
-            <button class="custom-btn">Adviser</button>
-        </a>
-        
+        <a href="{{ url_for('auth.student_login') }}" class="text-[1.25rem] underline">Login</a>
     </div>
+
+    
     
 </body>
 </html>

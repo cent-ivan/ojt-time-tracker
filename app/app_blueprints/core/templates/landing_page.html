@@ -7,7 +7,10 @@
 
     <link rel="stylesheet" href="../../../static/css/main.css">
 </head>
-<body>
-    <p class="text-red-500 p-10">{{ message }}</p>
+<body class="p-5">
+    <p class="text-red-500">{{ message }}</p>
+
+    <a href="{{ url_for('auth.student_login') }}" class="text-sky-500 underline">Login</a>
+    <a href="{{ url_for('auth.choose_signup') }}" class="text-sky-500 underline">Sign Up</a>
 </body>
 </html>
