@@ -34,4 +34,14 @@
   bg-[#FAFAFA] hover:bg-[#FFFFFF] 
   focus:outline-0 focus:border-2 focus:bg-[#FFFFFF];
 }
+
+.hide-flash-message{
+  @apply flex items-center justify-center 
+  h-4 w-[100vw] p-5 
+  bg-red-100 
+  absolute left-0 top-0 
+  opacity-10
+  transition-discrete
+  transition-all
+}
     

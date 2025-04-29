@@ -6,12 +6,30 @@
     <title>Signup - OJT Time Tracker</title>
     
     <link rel="stylesheet" href="../../../../static/css/main.css">
+    <script>
+        function changeOpacity() {
+            //set attribute
+            document.getElementById('message').setAttribute("class", "hide-flash-message"); 
+        }       
+    </script>
 </head>
+
 <body class="
     h-screen p-8 
     bg-[#D1E0C8] 
     font-(family-name:--font-family)
 ">
+
+    <!-- message notif -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div id="message" class="flex items-center justify-center h-8 w-[100vw] p-5 bg-red-100 absolute left-0 top-0 opacity-85">
+                <p class="mr-1 font-bold">Notice:</p>
+                <p>{{ messages[0] }}</p>
+            </div>
+        {% endif %}
+    {% endwith %}
+
     <h2 class="text-2xl font-bold">Student Registration</h2>
 
     <form action="{{ url_for('auth.student_signup') }}" method="post" class="flex justify-between flex-wrap mt-5 mx-6 max-sm:mx-2">

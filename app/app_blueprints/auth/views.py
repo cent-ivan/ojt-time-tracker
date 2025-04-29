@@ -1,5 +1,6 @@
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, flash
 from . import auth_bp
+#always import repository in view if any
 from .auth_repository import insert_adviser, insert_student, get_school_id, list_schools
 
 from ...extensions import bcrypt
@@ -14,12 +15,12 @@ def adviser_login():
     return render_template('auth/login/adviser_login.html')
 
 
+#--SIGN UP--------------------------------------------------------------
 @auth_bp.route('/signup')
 def choose_signup():
     return render_template('auth/signup/choose_signup.html')
 
-
-#STUDENT SIGNUP
+#ADVISER SIGNUP
 @auth_bp.route('/adviser-signup', methods=['GET', 'POST'])
 def adviser_signup():
     if request.method == 'GET':
@@ -29,7 +30,7 @@ def adviser_signup():
         email = request.form.get('email')
         school = request.form.get('school')
         password= request.form.get('password')
-        uid = '180j193'#"Return uid when registered in firebase"
+        uid = '180j1933'#"Return uid when registered in firebase"
 
         hashed_password =  bcrypt.generate_password_hash(password).decode('utf-8')
         qry = insert_adviser(
@@ -42,10 +43,11 @@ def adviser_signup():
         if qry == '202':
             return redirect(url_for('auth.student_login'))
         else:
-            return qry
+            flash(f'{qry}')
+            return redirect(url_for('auth.adviser_signup'))
 
 
-#ADVISER SIGNUP
+#STUDENT SIGNUP
 @auth_bp.route('/student-signup', methods=['GET', 'POST'])
 def student_signup():
     if request.method == 'GET':
@@ -58,7 +60,7 @@ def student_signup():
         company = request.form.get('company')
         total_hours = request.form.get('ojt-hours')
         password = request.form.get('password')
-        uid = '13ehjc544'#"Return uid when registered in firebase"
+        uid = '13ehjc5sd'#"Return uid when registered in firebase"
 
         schoolId = get_school_id(school_name)
         hashed_password =  bcrypt.generate_password_hash(password).decode('utf-8')
@@ -76,6 +78,7 @@ def student_signup():
         if qry == '202':
             return redirect(url_for('auth.student_login'))
         else:
-            return qry
+            flash(f'{qry}')
+            return redirect(url_for('auth.adviser_signup'))
 
-
+#--custom filters----------------------------------
