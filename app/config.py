@@ -32,3 +32,4 @@ class LoginManagerConfig():
         @login_manager.unauthorized_handler  #if the user is not authorized it will redirect in this endpoint
         def unauthorized_callback():
             return redirect(url_for('auth.login'))
+           

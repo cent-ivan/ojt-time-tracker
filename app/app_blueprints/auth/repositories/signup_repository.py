@@ -1,6 +1,6 @@
 from flask import redirect, url_for
 from ....extensions import db, insert, SQLAlchemyError, IntegrityError
-from ..models import SchoolsModel, AdviserModel, StudentModel
+from ..auth_models import SchoolsModel, AdviserModel, StudentModel
 
 from ..utils.signup_error_checker import SignUpErrorChecker
 
@@ -10,7 +10,7 @@ class SignUpRepository:
 
     #REGISTER---------------------------------------------------------------------------------
     #for the dropdown, to show registered schools
-    @staticmethod #this enables the method to be used directly
+    @staticmethod #this enables the method to be used directly.
     def list_schools() -> list:
         try:
             schools = SchoolsModel.query.all()
@@ -51,7 +51,6 @@ class SignUpRepository:
                 companyName = user['company'],
                 totalHours = user['total_hours'],
                 userType = user['type'],
-                password = user['password']
             )
             db.session.add(data)
             db.session.commit()
@@ -75,7 +74,12 @@ class SignUpRepository:
                     return SignUpErrorChecker.signup_error_checker('email')
                 return SignUpErrorChecker.signup_error_checker('school')
             else:
-                data = AdviserModel(adviserId=user['uid'], adviserName=user['name'], email=user['email'], schoolName=user['school'], userType=user['type'], password = user['hashed_password'])
+                data = AdviserModel(
+                    adviserId=user['uid'], 
+                    adviserName=user['name'], 
+                    email=user['email'], 
+                    schoolName=user['school'], 
+                    userType=user['type'])
                 db.session.add(data)
                 
                 SignUpRepository.create_school(school = user['school'], adviser_id = user['uid'])

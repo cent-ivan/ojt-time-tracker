@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 1a49492f88f1
+Revision ID: 218545da6e4d
 Revises: 
-Create Date: 2025-04-28 22:07:41.194636
+Create Date: 2025-05-02 13:54:50.684843
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '1a49492f88f1'
+revision = '218545da6e4d'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -24,10 +24,8 @@ def upgrade():
     sa.Column('email', sa.String(length=50), nullable=False),
     sa.Column('school_name', sa.String(length=50), nullable=False),
     sa.Column('type', sa.String(length=50), nullable=False),
-    sa.Column('password', sa.String(length=255), nullable=False),
     sa.PrimaryKeyConstraint('adviser_id'),
     sa.UniqueConstraint('email'),
-    sa.UniqueConstraint('password'),
     sa.UniqueConstraint('school_name')
     )
     op.create_table('schoolstbl',
@@ -46,11 +44,9 @@ def upgrade():
     sa.Column('company_name', sa.String(length=50), nullable=False),
     sa.Column('total_hours', sa.Integer(), nullable=False),
     sa.Column('type', sa.String(length=50), nullable=False),
-    sa.Column('password', sa.String(length=255), nullable=False),
     sa.ForeignKeyConstraint(['school_id'], ['schoolstbl.school_id'], ),
     sa.PrimaryKeyConstraint('student_id'),
     sa.UniqueConstraint('email'),
-    sa.UniqueConstraint('password'),
     sa.UniqueConstraint('student_name')
     )
     op.create_table('ojtlisttbl',

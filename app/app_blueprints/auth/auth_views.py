@@ -4,7 +4,13 @@ from . import auth_bp
 from .repositories.signup_repository import SignUpRepository
 from .utils.validators import Validators
 
-from ...extensions import bcrypt
+from ...extensions import bcrypt #you do not need bcrypt for this, because Firebase handles hashing and storing of passwords
+from .firebase_auth_services import FirebaseAuth
+'''
+to avoid circular imports: Make sure that two or more modules don’t rely on importing each other at the top level during initial loading.
+Like (auth_views.py) signup_repository import SignUpRepository -> from ....extensions import db -> from .app_blueprints.auth.firebase_auth_services import FirebaseAuth so it didnt read the 'db' variable
+But after it reads 'import SignUpRepository' it then import again extensions like (auth_views.py) ...extensions import FirebaseAuth -> from .app_blueprints.auth.firebase_auth_services import FirebaseAuth
+'''
 
 
 #--LOG IN---------------------------------------------------------------
@@ -40,23 +46,28 @@ def adviser_signup():
         
         if Validators.is_valid_email(email):
             if Validators.is_password_correct_length(password):
-                hashed_password =  bcrypt.generate_password_hash(password).decode('utf-8') #turns to hashed text
                 #INSERT QUERY
-                qry = SignUpRepository.insert_adviser(
-                    uid=uid, name=name, 
-                    email=email, 
-                    school=school, 
-                    type = 'adviser',
-                    hashed_password=hashed_password
-                )
-                if qry == 200:
-                    return redirect(url_for('auth.student_login'))
-                else:
-                    flash(f'{qry}')
+                user_id = FirebaseAuth.register_to_firebase_auth(email, password)
+                if user_id == 'exists':
+                    flash('Password must have a lenght of 5 or more')
                     return redirect(url_for('auth.adviser_signup'))
+                else:
+                    qry = SignUpRepository.insert_adviser(
+                        uid=user_id, 
+                        name=name, 
+                        email=email, 
+                        school=school, 
+                        type = 'adviser',
+                    )
                 
+                    if qry == 200:
+                        return redirect(url_for('auth.student_login'))
+                    else:
+                        flash(f'')
+                        return redirect(url_for('auth.adviser_signup'))
+                    
             else:
-                flash('Password must have a lenght of 5 or more')
+                flash('Password must have a lenght of 6 or more')
                 return redirect(url_for('auth.adviser_signup'))
         else:
             flash('Invalid Email. Please put a valid email')
@@ -78,8 +89,7 @@ def student_signup():
         password = request.form.get('password')
         uid = '13ehjc5sd'#"Return uid when registered in firebase"
 
-        schoolId = SignUpRepository.get_school_id(school_name)
-        hashed_password =  bcrypt.generate_password_hash(password).decode('utf-8')
+        schoolId = SignUpRepository.get_school_id(school_name) #getting the id of the school
         
         if Validators.is_valid_email(email):
             if Validators.is_password_correct_length(password):
@@ -91,8 +101,8 @@ def student_signup():
                     company = company,
                     total_hours = total_hours,
                     type = "student",
-                    password= hashed_password
                 )
+                
                 if qry == 200:
                     return redirect(url_for('auth.student_login'))
                 else:

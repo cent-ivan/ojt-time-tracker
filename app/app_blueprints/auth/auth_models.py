@@ -10,7 +10,7 @@ class AdviserModel(db.Model, UserMixin):
     email = Column(String(50), nullable=False, unique=True, name='email')
     schoolName = Column(String(50), nullable=False, unique=True, name='school_name')
     userType = Column(String(50), nullable=False, name='type')
-    password = Column(String(255), nullable=False, unique=True, name='password')
+
 
     school = orm.relationship('SchoolsModel', back_populates='adviser')
 
@@ -41,7 +41,6 @@ class StudentModel(db.Model, UserMixin):
     companyName = Column(String(50), nullable=False, name='company_name')
     totalHours = Column(Integer, nullable=False, name='total_hours')
     userType = Column(String(50), nullable=False, name='type')
-    password = Column(String(255), nullable=False, unique=True, name='password')
 
     ojtList = orm.relationship('OjtListModel', back_populates='student')
     timesheet = orm.relationship('TimeSheetModel', back_populates='student')

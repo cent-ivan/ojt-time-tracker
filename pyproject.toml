@@ -3,13 +3,14 @@ name = "ojt-time-tracker"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.13"
 dependencies = [
     "alembic==1.15.2",
     "bcrypt==4.3.0",
     "blinker==1.9.0",
     "click==8.1.8",
     "colorama==0.4.6",
+    "firebase-admin>=6.8.0",
     "flask==3.1.0",
     "flask-bcrypt==1.0.1",
     "flask-login==0.6.3",

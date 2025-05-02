@@ -10,6 +10,6 @@ class Validators:
         
     @staticmethod
     def is_password_correct_length(password) -> bool:
-        if len(password) >= 5:
+        if len(password) >= 6:
             return True
         return False
