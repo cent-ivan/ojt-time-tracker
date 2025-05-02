@@ -13,4 +13,4 @@ wheels/
 #tailwind components
 node_modules/
 app/static/css/main.css
-!app/static/scripts/main.js
+!app/static/scripts/*
