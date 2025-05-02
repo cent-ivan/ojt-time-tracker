@@ -1,5 +1,5 @@
-from ...extensions import db, Column, Integer, String, Date, Time
-from ...extensions import select, insert, orm, ForeignKey
+from ....extensions import db, Column, Integer, String, Date, Time
+from ....extensions import select, insert, orm, ForeignKey
 
 class TimeSheetModel(db.Model):
     __tablename__ = 'timesheettbl'

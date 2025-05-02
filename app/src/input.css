@@ -2,6 +2,7 @@
 
 :root {
   --font-family: Arial, Verdana, sans-serif;
+  --base-color: #ACC497;
 }
 
 /* Choose Signup utility*/
@@ -35,12 +36,34 @@
   focus:outline-0 focus:border-2 focus:bg-[#FFFFFF];
 }
 
+/*Login form utility*/
+.login-txt-box {
+  @apply rounded-md 
+  px-2
+  py-4
+  mb-[24px]
+  w-[80%]
+  bg-[#FAFAFA] hover:bg-[#FFFFFF]
+  hover:outline-2
+}
+
+/*FOOTER*/
+.custom-footer {
+  @apply flex items-start justify-center
+  rounded-b-md
+  h-[9rem]
+  pt-3
+  bg-[#D1E0C8]  
+}
+
+
+
 .hide-flash-message{
   @apply flex items-center justify-center 
   h-4 w-[100vw] p-5 
   bg-red-100 
   absolute left-0 top-0 
-  opacity-10
+  opacity-0
   transition-discrete
   transition-all
 }

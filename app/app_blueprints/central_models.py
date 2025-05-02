@@ -1,6 +1,6 @@
 #Centralized file for the models in all of the blueprints
 from .auth.models import AdviserModel, SchoolsModel, StudentModel, OjtListModel
-from .home.models import TimeSheetModel
+from .dashboard.student_dashboard.models import TimeSheetModel
 
 __all__ = [
     'AdviserModel',

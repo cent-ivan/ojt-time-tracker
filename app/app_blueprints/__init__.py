@@ -1,10 +1,10 @@
 #Centralized blueprint imports
 from .auth import auth_bp
-from .home import home_bp
-from .core import core_bp
+from .dashboard.student_dashboard import stud_dashboard_bp
+from .public import public_bp
 
 all_blueprints = [
-    (core_bp, '/'),
+    (public_bp, '/'),
     (auth_bp, '/auth'),
-    (home_bp, '/dashboard')
+    (stud_dashboard_bp, '/student-dashboard')
 ]
