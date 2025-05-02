@@ -9,3 +9,7 @@ wheels/
 # Virtual environments
 .venv
 .env
+
+#tailwind components
+node_modules/
+app/static/css/main.css
