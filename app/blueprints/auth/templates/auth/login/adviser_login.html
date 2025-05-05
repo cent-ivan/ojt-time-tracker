@@ -5,12 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adviser Login - OJT Time Tracker</title>
     <link rel="stylesheet" href="../../../../static/css/main.css">
+
+    <script>
+        function changeOpacity() {
+            //set attribute
+            document.getElementById('message').setAttribute("class", "hide-flash-message"); 
+        }       
+    </script>
 </head>
 <body class="
     box-border 
     m-0 p-0 
     h-screen
     font-(family-name:--font-family)">
+    
+    <!-- message notif -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div id="message" onclick="changeOpacity()" class="flex items-center justify-center h-8 w-[100vw] p-5 bg-red-100 absolute left-0 top-0 opacity-85">
+                <p id="header" class="mr-1 font-bold">Notice:</p>
+                <p>{{ messages[0] }}</p>
+            </div>
+        {% endif %}
+    {% endwith %}
+
      <!-- main section -->
      <div class="
         flex
@@ -58,8 +76,8 @@
                     w-full 
                     max-sm:w-65% ">
 
-                    <input type="text" name="email" id="" placeholder="Email" class="login-txt-box">
-                    <input type="password" name="pass" id="" placeholder="Password" class="login-txt-box">
+                    <input type="text" name="email" id="" placeholder="Email" required class="login-txt-box">
+                    <input type="password" name="pass" id="" placeholder="Password" required class="login-txt-box">
 
                     <input type="submit" value="Login" class="
                         rounded-md 

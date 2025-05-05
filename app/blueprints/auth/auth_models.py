@@ -1,5 +1,5 @@
 #table with relationships
-from ...extensions import db, UserMixin, Column, Integer, String, ForeignKey, orm
+from ...extensions import db, UserMixin, Column, Integer, Boolean, String, ForeignKey, orm
 
 #CHANGE
 class AdviserModel(db.Model, UserMixin):
@@ -10,13 +10,14 @@ class AdviserModel(db.Model, UserMixin):
     email = Column(String(50), nullable=False, unique=True, name='email')
     schoolName = Column(String(50), nullable=False, unique=True, name='school_name')
     userType = Column(String(50), nullable=False, name='type')
+    password = Column(String(255), nullable=False, name='password')
 
 
     school = orm.relationship('SchoolsModel', back_populates='adviser')
 
     #create this for overriding the User_loader in login_manager -> goto config.py. NOTE you can override methods in packages
     def get_id(self):
-        return f"adviser-{self.adviserId}"
+        return str(self.adviserId)
 
 
 class SchoolsModel(db.Model):
@@ -41,13 +42,15 @@ class StudentModel(db.Model, UserMixin):
     companyName = Column(String(50), nullable=False, name='company_name')
     totalHours = Column(Integer, nullable=False, name='total_hours')
     userType = Column(String(50), nullable=False, name='type')
+    password = Column(String(255), nullable=False, name='password')
+    isActive = Column(Boolean, nullable=False, name='is_active')
 
     ojtList = orm.relationship('OjtListModel', back_populates='student')
     timesheet = orm.relationship('TimeSheetModel', back_populates='student')
 
      #create this for overriding the User_loader in login_manager -> goto config.py
     def get_id(self):
-        return f"student-{self.studentId}"
+        return str(self.studentId)
 
 
 #create TimeSheetModel

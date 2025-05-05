@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 218545da6e4d
+Revision ID: 4ea1f3423842
 Revises: 
-Create Date: 2025-05-02 13:54:50.684843
+Create Date: 2025-05-03 16:53:34.331095
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '218545da6e4d'
+revision = '4ea1f3423842'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -24,6 +24,7 @@ def upgrade():
     sa.Column('email', sa.String(length=50), nullable=False),
     sa.Column('school_name', sa.String(length=50), nullable=False),
     sa.Column('type', sa.String(length=50), nullable=False),
+    sa.Column('password', sa.String(length=255), nullable=False),
     sa.PrimaryKeyConstraint('adviser_id'),
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('school_name')
@@ -44,6 +45,8 @@ def upgrade():
     sa.Column('company_name', sa.String(length=50), nullable=False),
     sa.Column('total_hours', sa.Integer(), nullable=False),
     sa.Column('type', sa.String(length=50), nullable=False),
+    sa.Column('password', sa.String(length=255), nullable=False),
+    sa.Column('is_active', sa.Boolean(), nullable=False),
     sa.ForeignKeyConstraint(['school_id'], ['schoolstbl.school_id'], ),
     sa.PrimaryKeyConstraint('student_id'),
     sa.UniqueConstraint('email'),
