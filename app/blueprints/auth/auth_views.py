@@ -148,6 +148,7 @@ def student_signup():
         email = request.form.get('email')
         school_name = request.form.get('school')
         company = request.form.get('company')
+        type = "student"
         total_hours = request.form.get('ojt-hours')
         password = request.form.get('password')
 
@@ -172,7 +173,7 @@ def student_signup():
             school_id = schoolId,
             company = company,
             total_hours = total_hours,
-            type = "student",
+            type = type,
             password = hashed_password,
             active = True
         )
