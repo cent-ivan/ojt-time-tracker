@@ -1,0 +1,43 @@
+{% extends 'home_base.html' %}
+
+{% block title %} Dashboard {% endblock %}
+
+{% block content %}
+    <nav class="flex justify-between items-center px-4 bg-[#A6BF8E]">
+        <h2 class="text-xl font-bold">
+            OJT Timestamp Counter
+        </h2>
+
+        <div class="flex">
+            <div class="flex items-center justify-center"> {{ name }} </div>
+            <a href="{{ url_for('auth.logout') }}"  title="Logout" class="flex items-center justify-center w-[3em] h-[3em] hover:bg-[#ACC497]">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                </svg>      
+            </a>
+        </div>
+    </nav>  
+
+    <!-- contents and tables -->
+    <div class="h-[80%]">
+        <div class="grid grid-cols-3 grid-rows-3 gap-2 h-full">
+            
+            <div class="row-span-2 flex items-center justify-center bg-sky-200">
+                <div class="flex items-start justify-center flex-col gap-4 w-[50%] h-[50%] bg-emerald-50">
+                    <button class="rounded w-[80%] h-[40%] bg-(background-color:--base-color) hover:bg-amber-200 font-bold cursor-pointer">
+                        {% if check_time >= 17 %}
+                            Time Out
+                        {% else %}
+                            Time In
+                        {% endif %}
+                    </button>
+                    <p>Your time: {{ time }}</p>
+                </div>
+                
+            </div>
+
+            <div class="col-start-1 row-start-3 bg-sky-200">2</div>
+            <div class="col-start-2 col-span-2 row-start-1 row-span-3 bg-sky-200">3</div>
+        </div>
+    </div>
+{% endblock %}

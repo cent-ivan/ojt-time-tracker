@@ -47,6 +47,9 @@
   hover:outline-2
 }
 
+/*HEADER*/
+
+
 /*FOOTER*/
 .custom-footer {
   @apply flex items-start justify-center
@@ -64,6 +67,7 @@
   bg-red-100 
   absolute left-0 top-0 
   opacity-0
+  duration-200
   transition-discrete
   transition-all
 }

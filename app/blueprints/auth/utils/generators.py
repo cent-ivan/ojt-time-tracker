@@ -10,10 +10,7 @@ class Generators():
 
     @staticmethod
     def generate_uid(type, number) -> str:
-        if number > 0:
-            number += 1
-            uid = f"{type}-OTA:{number}"
-            return uid
-        
+        number += 1
         uid = f"{type}-OTA:{number}"
         return uid
+        

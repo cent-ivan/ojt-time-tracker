@@ -8,4 +8,4 @@ from . import adviser_dashboard_bp
 @login_required
 def index():
     id = current_user.password
-    return render_template('dashboard.html', uid=id)
+    return render_template('adviser_dashboard.html', uid=id)

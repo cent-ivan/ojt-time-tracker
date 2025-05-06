@@ -4,9 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}  OJT Time Tracker {% endblock %}</title>
+
+    <link rel="stylesheet" href="../../static/css/main.css">
 </head>
-<body>
-    {% block content %} 
-    {% endblock %}
-</body>
+    <body class="h-screen bg-[#F2F2F2] font-(family-name:--font-family)">
+        {% block content %} 
+        {% endblock %}
+
+        <footer class="custom-footer">
+            Copyright © 2025 | Terms
+        </footer>
+    </body>
 </html>

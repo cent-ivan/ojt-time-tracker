@@ -56,8 +56,8 @@ class SignUpRepository:
     def insert_student(**user) -> str:
         try:
             #check first if the email is unique
-            email_adviser = AdviserModel.query.filter(AdviserModel.email==user['email']).first()
-            email_student = StudentModel.query.filter(AdviserModel.email==user['email']).first()
+            email_adviser = StudentModel.query.filter(StudentModel.email==user['email']).first()
+            email_student = StudentModel.query.filter(StudentModel.email==user['email']).first()
             
             
             if email_adviser or email_student:
