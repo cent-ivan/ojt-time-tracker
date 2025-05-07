@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, request, flash
+from flask import render_template, redirect, url_for, request, flash, make_response
 from flask_login import login_user, logout_user, login_required
 
 from . import auth_bp
@@ -82,7 +82,9 @@ def student_login():
 @auth_bp.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('auth.student_login'))
+    response = make_response(redirect(url_for('auth.student_login')))
+    response.set_cookie(key='time_pressed', expires=0)
+    return response
 
 @auth_bp.route('/redirect-to-signup')
 def redirect_to_signup():
