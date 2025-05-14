@@ -2,6 +2,7 @@
 
 :root {
   --font-family: Arial, Verdana, sans-serif;
+  --font-color: #353839;
   --base-color: #ACC497;
 }
 
@@ -29,7 +30,6 @@
 .register-select-box {
   @apply rounded-lg 
   px-2
-
   h-16
   opacity-80
   bg-[#FAFAFA] hover:bg-[#FFFFFF] 
@@ -39,8 +39,7 @@
 /*Login form utility*/
 .login-txt-box {
   @apply rounded-md 
-  px-2
-  py-4
+  px-2 py-4
   mb-[24px]
   w-[80%]
   bg-[#FAFAFA] hover:bg-[#FFFFFF]
@@ -54,11 +53,31 @@
 .custom-footer {
   @apply flex items-start justify-center
   rounded-b-md
-  h-[9rem]
+  h-[6rem]
   pt-3
   bg-[#D1E0C8]  
 }
 
+/*TABLES*/
+.table-header {
+  @apply w-15 p-2 
+  border-r-1 border-[#ADAAAA] 
+  text-sm font-semibold 
+  tracking-wide 
+  whitespace-nowrap
+}
+.table-data {
+  @apply w-15 p-2 
+  border-r-1 border-[#ADAAAA] 
+  text-sm text-center 
+  tracking-wide 
+}
+
+
+/* Utility styles */
+.hide-dialog {
+  @apply fixed flex items-center justify-center left-0 top-0 w-full h-full bg-gray-700 opacity-95 invisible
+}
 
 
 .hide-flash-message{

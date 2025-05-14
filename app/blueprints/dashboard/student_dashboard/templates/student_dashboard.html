@@ -3,6 +3,30 @@
 {% block title %} Dashboard {% endblock %}
 
 {% block content %}
+    <div id="timeout-dialog" class="fixed flex items-center justify-center left-0 top-0 w-full h-full bg-gray-700 opacity-95 invisible">
+        <section class="flex flex-col rounded-lg w-[30%] h-[60%] p-3 bg-[#D1E0C8] shadow-md">
+            <div class="flex flex-row-reverse">
+                <button title="Back" onclick="closeDialog()" id="back-btn">X</button>
+            </div>
+            <form action="{{ url_for('student_home.index') }}" method="post"> 
+                <label for="status" class="text-sm font-bold text-gray-90" >Duty Status:</label>
+                <select name="status" id="status" required class="register-select-box w-full mt-2">
+                    <!-- By default it is a normal day -->
+                    <option value="Regular">Regular Day</option>
+                    <option value="Double">Double Hours</option>
+                 </select>
+                
+                 <label for="note" class="mt-4 mb-2 text-sm font-bold text-gray-90" >Note:</label>
+                 <textarea maxlength="155" rows=2 name="note" id="note" placeholder="Enter note" class="rounded-md px-2 py-4 w-full h-[70%] bg-[#FAFAFA] hover:bg-[#FFFFFF] hover:outline-2"></textarea>
+    
+                 <div class="flex items-center justify-center h-[50%]">
+                    <button type="submit" class="rounded w-[60%] h-[50%] bg-(background-color:--base-color) hover:bg-amber-200 font-bold cursor-pointer"> Time Out</button>
+                 </div>
+            </form>
+        </section>
+    </div>
+
+    <!-- nav bar -->
     <nav class="flex justify-between items-center px-4 bg-[#A6BF8E]">
         <h2 class="text-xl font-bold">
             OJT Timestamp Counter
@@ -13,31 +37,128 @@
             <a href="{{ url_for('auth.logout') }}"  title="Logout" class="flex items-center justify-center w-[3em] h-[3em] hover:bg-[#ACC497]">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
-                </svg>      
+                </svg>
             </a>
         </div>
-    </nav>  
+    </nav>
 
     <!-- contents and tables -->
-    <div class="h-[80%]">
-        <div class="grid grid-cols-3 grid-rows-3 gap-2 h-full">
-            
-            <div class="row-span-2 flex items-center justify-center bg-sky-200">
-                <div class="flex items-start justify-center flex-col gap-4 w-[50%] h-[50%] bg-emerald-50">
-                    <button class="rounded w-[80%] h-[40%] bg-(background-color:--base-color) hover:bg-amber-200 font-bold cursor-pointer">
-                        {% if check_time >= 17 %}
-                            Time Out
-                        {% else %}
-                            Time In
-                        {% endif %}
-                    </button>
-                    <p>Your time: {{ time }}</p>
-                </div>
-                
+    <main class="h-[80%]">
+        <div class="grid grid-cols-3 grid-rows-3 gap-1 h-full">
+
+            <div class="row-span-2 flex items-center justify-center">
+                <section class="flex items-start justify-center flex-col w-[60%] h-[30%]">
+                    {% if is_pressed == 'True' %}
+                        <div class="w-full h-[80%]">
+                            <button onclick="openDialog()" id="timeout-btn" class="rounded w-[75%] h-[80%] bg-(background-color:--base-color) hover:bg-amber-200 font-bold cursor-pointer">Time Out</button>
+                        </div>
+                    {% else %}
+                        <form action="{{ url_for('student_home.index') }}"  method="post" class="w-full h-[80%]">
+                            <button type="submit" class="rounded w-[75%] h-[80%] bg-(background-color:--base-color) hover:bg-amber-200 font-bold cursor-pointer"> Time In</button>
+                        </form>
+                    {% endif %}
+                    
+                    {% if is_showed == 'True' %}
+                        <div class="flex gap-2 text-sm">
+                            <p class="font-semibold">Your time:</p>
+                            <p>{{ time }}</p>
+                        </div>
+                    {% endif %}
+                </section>
             </div>
 
-            <div class="col-start-1 row-start-3 bg-sky-200">2</div>
-            <div class="col-start-2 col-span-2 row-start-1 row-span-3 bg-sky-200">3</div>
+            <!-- Computation table -->
+            <div class="col-start-1 row-start-3 flex items-center justify-center p-5">
+                <div class="overflow-auto rounded-lg w-full">
+                    <table class="w-full">
+                        <thead class="bg-[#DED9D9]">
+                            <tr class="rounded-md ">
+                                <th class="table-header">Total Days</th>
+                                <th class="table-header">Total Hours</th>
+                                <th class="table-header">Remaining Hours</th>
+                                <th class="w-15 p-2 text-sm font-semibold tracking-wide whitespace-nowrap">Remaining Days</th>
+                            </tr>
+                        </thead>
+                        <tbody class= "bg-[#FFFFFF] divide-y">
+                            <tr>
+                                <td class="table-data">0</td>
+                                <td class="table-data">0</td>
+                                <td class="table-data">0</td>
+                                <td class="w-15 p-2 text-sm text-center tracking-wide border-[#ADAAAA]">0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Timesheet table -->
+            <div class="col-start-2 col-span-2 row-start-1 row-span-3 flex items-center justify-start flex-col p-4">
+                <div class="flex items-center justify-center flex-col w-full h-[20%] mb-2 rounded-lg bg-[#DED9D9]">
+                    <p class="font-bold text-2xl">5:00 PM</p>
+                    <div class=" flex gap-2 text-xl font-semibold">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 2.994v2.25m10.5-2.25v2.25m-14.252 13.5V7.491a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v11.251m-18 0a2.25 2.25 0 0 0 2.25 2.25h13.5a2.25 2.25 0 0 0 2.25-2.25m-18 0v-7.5a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v7.5m-6.75-6h2.25m-9 2.25h4.5m.002-2.25h.005v.006H12v-.006Zm-.001 4.5h.006v.006h-.006v-.005Zm-2.25.001h.005v.006H9.75v-.006Zm-2.25 0h.005v.005h-.006v-.005Zm6.75-2.247h.005v.005h-.005v-.005Zm0 2.247h.006v.006h-.006v-.006Zm2.25-2.248h.006V15H16.5v-.005Z" />
+                        </svg>
+                        <p>5/13/202, Tue</p>
+                    </div>
+                </div>
+
+                <div class="overflow-auto scroll-m-0 rounded-lg w-full h-[500px]">
+                    <table class="w-full rounded-lg">
+                        <thead class="bg-[#DED9D9]">
+                            <tr class="rounded-md ">
+                                <th class="table-header">Date</th>
+                                <th class="table-header">Time In</th>
+                                <th class="table-header">Time Out</th>
+                                <th class="w-12 border-r-1 border-[#ADAAAA] text-sm font-semibold tracking-tighter whitespace-nowrap">Hours Worked</th>
+                                <th class="w-12 border-r-1 border-[#ADAAAA] text-sm font-semibold whitespace-nowrap">Daily Status</th>
+                                <th class="w-20 p-2 text-sm font-semibold tracking-wide">Note</th>
+                            </tr>
+                        </thead>
+                        <tbody class= "bg-[#FFFFFF] divide-y">
+                            {% for i in range(1,20) %}
+                                <tr class="border-0 odd:bg-white even:bg-[#DED9D9] hover:bg-gray-300">
+                                    <td class="table-data">5/{{i}}/2025</td>
+                                    <td class="table-data">8:00 AM</td>
+                                    <td class="table-data">5:00 PM</td>
+                                    <td class="table-data">8</td>
+                                    <td class="table-data">Regular Day</td>
+                                    <td class="w-20 p-2 border-r-1 border-[#ADAAAA] text-sm tracking-wide">Holiday Credited, Omism Day</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-    </div>
+    </main>
+
+    <script>
+        //showing dialog
+        function openDialog() {
+            const element = document.getElementById('timeout-dialog');
+            element.classList.remove('invisible');
+        }
+
+        //closing dialog
+        function closeDialog() {
+            const element = document.getElementById('timeout-dialog');
+            element.classList.add('invisible');
+        }
+
+        //-------------------------------------------------------------
+        const element = document.getElementById("demo");
+
+        setInterval(function() {
+            const date = new Date();
+            let time = date.toUTCString().split(' ');
+            element.innerHTML =  "Current Time" + time[4];
+
+            let hour = date.getHours();
+            let minute = date.getMinutes();
+            let seconds = date.getSeconds();
+            element2.innerHTML =  "With get: " +  hour + ":" + minute + ":" + seconds;
+         }, 1000);
+
+    </script>
 {% endblock %}

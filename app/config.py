@@ -6,7 +6,6 @@ from flask import redirect, url_for
 from dotenv import load_dotenv
 import os
 
-from .extensions import login_manager
 from .blueprints.central_models import *
 
 load_dotenv()
@@ -33,5 +32,5 @@ class LoginManagerConfig():
         
         @login_manager.unauthorized_handler  #if the user is not authorized it will redirect in this endpoint
         def unauthorized_callback():
-            return redirect(url_for('auth.login'))
+            return redirect(url_for('auth.logout'))
            
