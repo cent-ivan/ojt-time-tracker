@@ -1,19 +1,58 @@
 from datetime import date, datetime
 
-from .....extensions import db, insert, select, and_, SQLAlchemyError, IntegrityError
+from .....extensions import db, insert, update, select, and_, SQLAlchemyError, IntegrityError
 from ..student_dashboard_models import TimeSheetModel
 
 
 class StudentDashboardRepository:
+    
     @staticmethod
-    def get_timestamp(id, press_type):
-        #for getting timed in or out timestamp when user loaded first time the app
-        if press_type == 'True':
-            return 'Timed in at 05/13/2025, 1:44 PM' #SELECT time_in FROM timesheettbl;
-        else:
-            return 'Timed out at 05/13/2025, 5:00 PM' #SELECT time_out FROM timesheettbl;
+    def get_timesheet(uid):
+        timesheet = TimeSheetModel.query.filter(TimeSheetModel.studentId == uid).all()
+        result = []
+        for time in timesheet:
+            data = {
+                'date': time.date,
+                'time_in':time.timeIn,
+                'time_out':time.timeOut if time.timeOut != None else 0,
+                'hours_worked':time.hoursWorked if time.hoursWorked != None else 0 ,
+                'status':time.dutyStatus,
+                'note':time.note
+            }   
+            result.append(data)
+        return result
 
     @staticmethod
-    def insert_timestamp(data):
-        if data['is_timein'] and data['date'] != '':
-            pass
+    def get_timein(uid, date):
+        qry = select(TimeSheetModel.timeIn, TimeSheetModel.date).where(and_(TimeSheetModel.studentId == uid, TimeSheetModel.date == date))
+        return db.session.execute(qry).first()
+    
+
+    @staticmethod
+    def get_count_days(uid) -> int:
+        #for counting the days
+        qry = db.session.query(TimeSheetModel.date).filter(TimeSheetModel.studentId == uid).count()
+        if qry == None:
+            return 0
+        else:
+            return qry
+
+    #FOR TIMEIN
+    @staticmethod
+    def insert_timein(uid, date, timein):
+        #checks first for an existing date
+        if StudentDashboardRepository.get_timein(uid, date) != date:
+            stm = insert(TimeSheetModel).values(studentId=uid, date=date, timeIn=timein)
+            db.session.execute(stm)
+            db.session.commit()
+        else:
+            update_qry = update(TimeSheetModel).values(studentId=uid, date=date, timeIn=timein).where(and_( TimeSheetModel.studentId==uid, TimeSheetModel.date == date))
+            db.session.execute(update_qry)
+            db.session.commit()
+
+    #FOR TIMEOUT
+    def insert_timeout(uid, date, timeout, hours_worked, status, note):
+        update_qry = update(TimeSheetModel).values(timeOut = timeout, hoursWorked = hours_worked, dutyStatus = status, note = note).where(and_( TimeSheetModel.studentId==uid, TimeSheetModel.date == date))
+        db.session.execute(update_qry)
+        db.session.commit()
+  

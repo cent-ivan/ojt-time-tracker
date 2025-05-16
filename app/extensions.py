@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, Date, Time, Boolean
-from sqlalchemy import ForeignKey, orm, insert, select, and_, or_
+from sqlalchemy import ForeignKey, orm, insert, select, update, and_, or_
 from sqlalchemy.exc import SQLAlchemyError,IntegrityError
 from flask_migrate import Migrate
 

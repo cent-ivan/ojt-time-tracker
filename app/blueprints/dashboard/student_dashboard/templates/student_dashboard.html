@@ -50,7 +50,7 @@
                 <section class="flex items-start justify-center flex-col w-[60%] h-[30%]">
                     {% if is_pressed == 'True' %}
                         <div class="w-full h-[80%]">
-                            <button onclick="openDialog()" id="timeout-btn" class="rounded w-[75%] h-[80%] bg-(background-color:--base-color) hover:bg-amber-200 font-bold cursor-pointer">Time Out</button>
+                            <button onclick="openDialog()" id="timeout-btn" class="rounded w-[75%] h-[80%] bg-amber-200 hover:bg-amber-300 font-bold cursor-pointer">Time Out</button>
                         </div>
                     {% else %}
                         <form action="{{ url_for('student_home.index') }}"  method="post" class="w-full h-[80%]">
@@ -59,8 +59,7 @@
                     {% endif %}
                     
                     {% if is_showed == 'True' %}
-                        <div class="flex gap-2 text-sm">
-                            <p class="font-semibold">Your time:</p>
+                        <div class="flex text-sm">
                             <p>{{ time }}</p>
                         </div>
                     {% endif %}
@@ -81,10 +80,10 @@
                         </thead>
                         <tbody class= "bg-[#FFFFFF] divide-y">
                             <tr>
-                                <td class="table-data">0</td>
-                                <td class="table-data">0</td>
-                                <td class="table-data">0</td>
-                                <td class="w-15 p-2 text-sm text-center tracking-wide border-[#ADAAAA]">0</td>
+                                <td class="table-data">{{days_count}} Day/s</td>
+                                <td class="table-data">{{total_hours}}</td>
+                                <td class="table-data">{{student_hours - total_hours}}</td>
+                                <td class="w-15 p-2 text-sm text-center tracking-wide border-[#ADAAAA]">{{student_hours // 8}} Day/s</td>
                             </tr>
                         </tbody>
                     </table>
@@ -94,12 +93,12 @@
             <!-- Timesheet table -->
             <div class="col-start-2 col-span-2 row-start-1 row-span-3 flex items-center justify-start flex-col p-4">
                 <div class="flex items-center justify-center flex-col w-full h-[20%] mb-2 rounded-lg bg-[#DED9D9]">
-                    <p class="font-bold text-2xl">5:00 PM</p>
+                    <p id="client-time" class="font-bold text-2xl">5:00 PM</p>
                     <div class=" flex gap-2 text-xl font-semibold">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 2.994v2.25m10.5-2.25v2.25m-14.252 13.5V7.491a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v11.251m-18 0a2.25 2.25 0 0 0 2.25 2.25h13.5a2.25 2.25 0 0 0 2.25-2.25m-18 0v-7.5a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v7.5m-6.75-6h2.25m-9 2.25h4.5m.002-2.25h.005v.006H12v-.006Zm-.001 4.5h.006v.006h-.006v-.005Zm-2.25.001h.005v.006H9.75v-.006Zm-2.25 0h.005v.005h-.006v-.005Zm6.75-2.247h.005v.005h-.005v-.005Zm0 2.247h.006v.006h-.006v-.006Zm2.25-2.248h.006V15H16.5v-.005Z" />
                         </svg>
-                        <p>5/13/202, Tue</p>
+                        <p>{{time_client_display['date']}}, {{time_client_display['day']}}</p>
                     </div>
                 </div>
 
@@ -116,15 +115,25 @@
                             </tr>
                         </thead>
                         <tbody class= "bg-[#FFFFFF] divide-y">
-                            {% for i in range(1,20) %}
+                            {% for time in timesheet %}
                                 <tr class="border-0 odd:bg-white even:bg-[#DED9D9] hover:bg-gray-300">
-                                    <td class="table-data">5/{{i}}/2025</td>
-                                    <td class="table-data">8:00 AM</td>
-                                    <td class="table-data">5:00 PM</td>
-                                    <td class="table-data">8</td>
-                                    <td class="table-data">Regular Day</td>
-                                    <td class="w-20 p-2 border-r-1 border-[#ADAAAA] text-sm tracking-wide">Holiday Credited, Omism Day</td>
+                                    <td class="table-data">{{time['date']}}</td>
+                                    <td class="table-data">{{time['time_in'] | format_time}}</td>
+                                    <td class="table-data">{{time['time_out']}}</td>
+                                    <td class="table-data">{{time['hours_worked']}}</td>
+                                    <td class="table-data">{{time['status']}}</td>
+                                    <td class="w-20 p-2 border-r-1 border-[#ADAAAA] text-sm tracking-wide">{{time['note']}}</td>
                                 </tr>
+                            {% endfor %}
+                            {% for i in range(13 - timesheet|length) %}
+                                    <tr class="border-0 odd:bg-white even:bg-[#DED9D9] hover:bg-gray-300">
+                                        <td class="table-data h-8"> </td>
+                                        <td class="table-data h-8"> </td>
+                                        <td class="table-data h-8"> </td>
+                                        <td class="table-data h-8"> </td>
+                                        <td class="table-data h-8"> </td>
+                                        <td class="w-20 p-2 border-r-1 border-[#ADAAAA] text-sm tracking-wide"> </td>
+                                    </tr>
                             {% endfor %}
                         </tbody>
                     </table>
@@ -147,18 +156,28 @@
         }
 
         //-------------------------------------------------------------
-        const element = document.getElementById("demo");
+        const element = document.getElementById("client-time");
 
-        setInterval(function() {
+        setInterval(function () {
             const date = new Date();
-            let time = date.toUTCString().split(' ');
-            element.innerHTML =  "Current Time" + time[4];
 
             let hour = date.getHours();
             let minute = date.getMinutes();
             let seconds = date.getSeconds();
-            element2.innerHTML =  "With get: " +  hour + ":" + minute + ":" + seconds;
-         }, 1000);
+
+            let am_pm = hour >= 12 ? 'PM' : 'AM';
+
+            // Convert to 12-hour format
+            hour = hour % 12;
+            hour = hour ? hour : 12; // if hour is 0, set to 12
+
+            // Pad with leading zeros
+            hour = String(hour).padStart(2, '0');
+            minute = String(minute).padStart(2, '0');
+            seconds = String(seconds).padStart(2, '0');
+
+            element.innerHTML = `${hour}:${minute}:${seconds} ${am_pm}`;
+        }, 1000);
 
     </script>
 {% endblock %}
