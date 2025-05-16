@@ -34,13 +34,14 @@ def adviser_login():
         
         #CHECK
         user = LoginRepository.check_adviser(email)
-        if user == 0:
-            flash('User do not exist. Check your credentials')
-            return redirect(url_for('auth.adviser_login'))
-                
         if not bcrypt.check_password_hash(user.password, password):
             flash('Incorrect password. Check your credentials')
             return redirect(url_for('auth.adviser_login'))
+        
+        if user == 0:
+            flash('User do not exist. Check your credentials')
+            return redirect(url_for('auth.adviser_login'))
+            
         
         #logs in user
         login_user(user)

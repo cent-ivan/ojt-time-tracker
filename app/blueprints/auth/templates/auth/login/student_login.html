@@ -18,6 +18,15 @@
     m-0 p-0 
     h-screen
     font-(family-name:--font-family)">
+    <!-- message notif -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div id="message" onclick="changeOpacity()" class="flex items-center justify-center h-8 w-[100vw] p-5 bg-red-100 absolute left-0 top-0 opacity-85">
+                <p id="header" class="mr-1 font-bold">Notice:</p>
+                <p>{{ messages[0] }}</p>
+            </div>
+        {% endif %}
+    {% endwith %}
      <!-- main section -->
      <div class="
         flex
