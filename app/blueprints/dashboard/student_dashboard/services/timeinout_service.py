@@ -7,7 +7,7 @@ class TimeInOutService:
         #for getting timed in or out timestamp when user loaded first time the app
         if press_type == 'True':
             if timein.hour >= 12:
-                return f'Timed in at {date}, {timein} PM' #SELECT date, time_in FROM timesheettbl;
+                return f'Timed in at {date}, {timein.hour - 12}:{timein.minute}:{timein.second} PM' #SELECT date, time_in FROM timesheettbl;
             else:
                 return f'Timed in at {date}, {timein} AM' #SELECT date, time_in FROM timesheettbl;
         else:
@@ -32,6 +32,10 @@ class TimeInOutService:
             ti = timein #gets the time in the database
             to = datetime.strptime(timeout, '%H:%M:%S') #cinverts strftime to datetime obbject
             hours_worked = None
+
+            if ti > 12:
+                hours_worked = ((to - ti)) * 2
+
             if to > 12: #decrease with 1 hr lunchbreak
                 hours_worked = ((to - ti) - 1) * 2
             else:
@@ -41,6 +45,10 @@ class TimeInOutService:
             ti = timein.hour #gets the time in the database
             to = datetime.strptime(timeout, '%H:%M:%S').hour #cinverts strftime to datetime obbject
             hours_worked = None
+            #no decrease of 1 hour 
+            if ti > 12:
+                hours_worked = ((to - ti)) * 2
+
             if to > 12: #decrease with 1 hr lunchbreak
                 hours_worked = ((to - ti) - 1)
             else:
