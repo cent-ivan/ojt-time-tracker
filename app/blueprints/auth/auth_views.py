@@ -85,12 +85,12 @@ def student_login():
         return redirect(url_for('student_home.index'))
 
 
-@auth_bp.route('/logout/<string:user_type>')
-def logout(user_type):
+@auth_bp.route('/logout/<string:user_type>/<string:uid>')
+def logout(user_type, uid):
     logout_user()
     response = make_response(redirect(url_for('auth.student_login')))
     if user_type == 'student':
-        timeout = StudentDashboardRepository.get_timeOut()
+        timeout = StudentDashboardRepository.get_timeOut(uid, datetime.now().strftime('%Y-%m-%d'))
         if timeout != 0:
             response.set_cookie(key='time_pressed', expires=0)
             return response
