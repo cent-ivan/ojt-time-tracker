@@ -1,5 +1,5 @@
 from ....extensions import db, insert, select, and_, SQLAlchemyError, IntegrityError
-from ..auth_models import SchoolsModel, AdviserModel, StudentModel
+from ..auth_models import SchoolsModel, AdviserModel, StudentModel, OjtListModel
 
 from ..utils.signup_error_checker import SignUpErrorChecker
 
@@ -75,8 +75,21 @@ class SignUpRepository:
                 isActive = user['active']
             )
             db.session.add(data)
+
+            SignUpRepository.insert_ojt_list(student_id=user['uid'], school_id=user['school_id'])
             db.session.commit()
             return 200
+        except SQLAlchemyError as e:
+            return f'An error returned {str(e)}'
+        
+    #INSERT OJT-----------------------------------------------------------
+    @staticmethod
+    def insert_ojt_list(**data):
+        try:
+            qry = insert(OjtListModel).values(studentId=data['student_id'], schoolId=data['school_id'])
+            db.session.execute(qry)
+            db.session.commit()
+            
         except SQLAlchemyError as e:
             return f'An error returned {str(e)}'
 

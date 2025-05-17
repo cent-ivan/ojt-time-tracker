@@ -50,7 +50,7 @@ def adviser_login():
             login_user(user)
             return redirect(url_for('adviser_home.index'))
         except AttributeError:
-            flash('User do not exist. Check your credentials or register. ')
+            flash('User do not exist. Check your credentials or register.')
             return redirect(url_for('auth.adviser_login'))
             
 
@@ -90,8 +90,12 @@ def logout(user_type):
     logout_user()
     response = make_response(redirect(url_for('auth.student_login')))
     if user_type == 'student':
-        response.set_cookie(key='time_pressed', expires=0)
-        return response
+        timeout = StudentDashboardRepository.get_timeOut()
+        if timeout != 0:
+            response.set_cookie(key='time_pressed', expires=0)
+            return response
+        else:
+            return response
     
     return response
 
@@ -165,6 +169,7 @@ def student_signup():
 
         schoolId = SignUpRepository.get_school_id(school_name) #getting the id of the school
 
+        #setting uo ID
         count = SignUpRepository.get_count_users(type) #for ID generation, returns the newest user counts
         uid = Generators.generate_uid(type, count)
         hashed_password = Generators.generate_hash(password)
