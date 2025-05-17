@@ -138,24 +138,28 @@ def index():
 @stud_dashboard_bp.app_template_filter('format_times')
 def format_time(input_time) -> str:
     try:
+        result = ""
         if isinstance(input_time, (datetime, time)):
             hour = input_time.hour
             minute = f"{input_time.minute}"
 
         elif isinstance(input_time, int):
             if input_time == 0:
-                return "No Time"
+                result = "No Time"
+                return result
 
 
         # Convert to 12-hour format
         if hour == 0:
-            return f"12:{minute} AM"
+            result = f"12:{minute} AM"
         elif hour < 12:
-            return f"{hour}:{minute} AM"
+            result = f"{hour}:{minute} AM"
         elif hour == 12:
-            return f"{hour}:{minute} PM"
+            result = f"{hour}:{minute} PM"
         else:
-            return f"{hour - 12}:{minute} PM"
+            result = f"{hour - 12}:{minute} PM"
+        
+        return result
     
     except Exception as e:
-        return "Invalid time"
+        return f"Invalid time {e}"
