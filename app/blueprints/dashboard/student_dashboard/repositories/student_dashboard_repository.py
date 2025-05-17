@@ -27,6 +27,11 @@ class StudentDashboardRepository:
         qry = select(TimeSheetModel.timeIn, TimeSheetModel.date).where(and_(TimeSheetModel.studentId == uid, TimeSheetModel.date == date))
         return db.session.execute(qry).first()
     
+    @staticmethod
+    def get_timeOut(uid, date):
+        qry = select(TimeSheetModel.timeOut, TimeSheetModel.date).where(and_(TimeSheetModel.studentId == uid, TimeSheetModel.date == date))
+        return db.session.execute(qry).first()[0]
+    
 
     @staticmethod
     def get_count_days(uid) -> int:
