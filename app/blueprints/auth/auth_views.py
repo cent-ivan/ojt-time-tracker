@@ -1,10 +1,12 @@
 from flask import render_template, redirect, url_for, request, flash, make_response
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
+from datetime import datetime
 
 from . import auth_bp
 #always import repository in view if any
 from .repositories.signup_repository import SignUpRepository
 from .repositories.login_repository import LoginRepository
+from app.blueprints.dashboard.student_dashboard.repositories.student_dashboard_repository import StudentDashboardRepository
 from ...extensions import bcrypt
 from .utils.validators import Validators
 from .utils.generators import Generators
@@ -33,20 +35,23 @@ def adviser_login():
             return redirect(url_for('auth.adviser_login'))
         
         #CHECK
-        user = LoginRepository.check_adviser(email)
-        if not bcrypt.check_password_hash(user.password, password):
-            flash('Incorrect password. Check your credentials')
-            return redirect(url_for('auth.adviser_login'))
-        
-        if user == 0:
-            flash('User do not exist. Check your credentials')
-            return redirect(url_for('auth.adviser_login'))
+        try:
+            user = LoginRepository.check_adviser(email)
+            if not bcrypt.check_password_hash(user.password, password):
+                flash('Incorrect password. Check your credentials')
+                return redirect(url_for('auth.adviser_login'))
             
-        
-        #logs in user
-        login_user(user)
-        return redirect(url_for('adviser_home.index'))
+            if user == 0:
+                flash('User do not exist. Check your credentials')
+                return redirect(url_for('auth.adviser_login'))
+                
             
+            #logs in user
+            login_user(user)
+            return redirect(url_for('adviser_home.index'))
+        except AttributeError:
+            flash('User do not exist. Check your credentials or register. ')
+            return redirect(url_for('auth.adviser_login'))
             
 
 @auth_bp.route('/student-login', methods=['GET', 'POST'])
@@ -80,11 +85,14 @@ def student_login():
         return redirect(url_for('student_home.index'))
 
 
-@auth_bp.route('/logout')
-def logout():
+@auth_bp.route('/logout/<string:user_type>')
+def logout(user_type):
     logout_user()
     response = make_response(redirect(url_for('auth.student_login')))
-    response.set_cookie(key='time_pressed', expires=0)
+    if user_type == 'student':
+        response.set_cookie(key='time_pressed', expires=0)
+        return response
+    
     return response
 
 @auth_bp.route('/redirect-to-signup')
