@@ -20,13 +20,29 @@ def repo_student_test():
 
 
 @test_bp.app_template_filter('format_time')
-def format_time(time:datetime) -> str:
-    result = ""
-    if time.hour > 12:
-        result = f"{time.hour - 12}:{time.minute} PM"
-    elif time == 12:
-        result = f"{time.hour}:{time.minute} PM"
-    else:
-        result = f"{time.hour}:{time.minute} AM"
+def format_time(input_time) -> str:
+    try:
+        result = ""
+        if isinstance(input_time, datetime):
+            hour = input_time.hour
+            minute = f"{input_time.minute:02d}"
+        
+        else:
+            if input_time == 0:
+                return "0"
+       
+        if hour > 12:
+            result = f"{hour - 12}:{minute} PM"
+        elif hour == 12:
+            result = f"{hour}:{minute} PM"
+        elif hour < 12:
+            result = f"{hour}:{minute} AM"
+        else:
+            result = "0"
+        
+        return result
     
-    return result
+    except AttributeError:
+        return "0"    
+    except:
+        return "0"
