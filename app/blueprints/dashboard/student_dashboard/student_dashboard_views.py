@@ -71,8 +71,8 @@ def index():
             )
             return response
         
-        # except:
-        #     return "An Uknown Error"
+        except:
+            return "An Uknown Error"
 
     else:
         #POST
