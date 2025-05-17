@@ -5,9 +5,13 @@
 {% block content %}
     <div id="timeout-dialog" class="fixed flex items-center justify-center left-0 top-0 w-full h-full bg-gray-700 opacity-95 invisible">
         <section class="flex flex-col rounded-lg w-[30%] h-[60%] p-3 bg-[#D1E0C8] shadow-md">
-            <div class="flex flex-row-reverse">
-                <button title="Back" onclick="closeDialog()" id="back-btn">X</button>
+            <div class="flex justify-between mb-2">
+                <h2 class="font-bold text-2xl">Time Out Details</h2>
+                <div class="flex flex-row-reverse">
+                    <button title="Back" onclick="closeDialog()" id="back-btn">X</button>
+                </div>
             </div>
+            
             <form action="{{ url_for('student_home.index') }}" method="post"> 
                 <label for="status" class="text-sm font-bold text-gray-90" >Duty Status:</label>
                 <select name="status" id="status" required class="register-select-box w-full mt-2">
@@ -16,7 +20,7 @@
                     <option value="Double">Double Hours</option>
                  </select>
                 
-                 <label for="note" class="mt-4 mb-2 text-sm font-bold text-gray-90" >Note:</label>
+                 <label for="note" class="mt-4 text-sm font-bold text-gray-90" >Note:</label>
                  <textarea maxlength="155" rows=2 name="note" id="note" placeholder="Enter note" class="rounded-md px-2 py-4 w-full h-[70%] bg-[#FAFAFA] hover:bg-[#FFFFFF] hover:outline-2"></textarea>
     
                  <div class="flex items-center justify-center h-[50%]">
@@ -34,7 +38,7 @@
 
         <div class="flex">
             <div class="flex items-center justify-center"> {{ name }} </div>
-            <a href="{{ url_for('auth.logout') }}"  title="Logout" class="flex items-center justify-center w-[3em] h-[3em] hover:bg-[#ACC497]">
+            <a href="{{ url_for('auth.logout',user_type='student') }}"  title="Logout" class="flex items-center justify-center w-[3em] h-[3em] hover:bg-[#ACC497]">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
                 </svg>
@@ -45,9 +49,9 @@
     <!-- contents and tables -->
     <main class="h-[80%]">
         <div class="grid grid-cols-3 grid-rows-3 gap-1 h-full">
-
+            <!-- Button Section -->
             <div class="row-span-2 flex items-center justify-center">
-                <section class="flex items-start justify-center flex-col w-[60%] h-[30%]">
+                <div class="flex items-start justify-center flex-col w-[60%] h-[30%]">
                     {% if is_pressed == 'True' %}
                         <div class="w-full h-[80%]">
                             <button onclick="openDialog()" id="timeout-btn" class="rounded w-[75%] h-[80%] bg-amber-200 hover:bg-amber-300 font-bold cursor-pointer">Time Out</button>
@@ -63,11 +67,13 @@
                             <p>{{ time }}</p>
                         </div>
                     {% endif %}
-                </section>
+                </div>
             </div>
 
             <!-- Computation table -->
-            <div class="col-start-1 row-start-3 flex items-center justify-center p-5">
+            <section class="col-start-1 row-start-3 flex items-center justify-center p-5">
+                <!-- INCLUDE `sr-only` when sectioning  -->
+                <h2 class="sr-only">Computation Table</h2>
                 <div class="overflow-auto rounded-lg w-full">
                     <table class="w-full">
                         <thead class="bg-[#DED9D9]">
@@ -88,12 +94,14 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </section>
 
             <!-- Timesheet table -->
-            <div class="col-start-2 col-span-2 row-start-1 row-span-3 flex items-center justify-start flex-col p-4">
+            <section class="col-start-2 col-span-2 row-start-1 row-span-3 flex items-center justify-start flex-col p-4">
+                <h2 class="sr-only">Timesheet Table</h2>
+                <!-- time and date display -->
                 <div class="flex items-center justify-center flex-col w-full h-[20%] mb-2 rounded-lg bg-[#DED9D9]">
-                    <p id="client-time" class="font-bold text-2xl">5:00 PM</p>
+                    <h2 id="client-time" class="font-bold text-2xl">5:00 PM</h2>
                     <div class=" flex gap-2 text-xl font-semibold">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 2.994v2.25m10.5-2.25v2.25m-14.252 13.5V7.491a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v11.251m-18 0a2.25 2.25 0 0 0 2.25 2.25h13.5a2.25 2.25 0 0 0 2.25-2.25m-18 0v-7.5a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v7.5m-6.75-6h2.25m-9 2.25h4.5m.002-2.25h.005v.006H12v-.006Zm-.001 4.5h.006v.006h-.006v-.005Zm-2.25.001h.005v.006H9.75v-.006Zm-2.25 0h.005v.005h-.006v-.005Zm6.75-2.247h.005v.005h-.005v-.005Zm0 2.247h.006v.006h-.006v-.006Zm2.25-2.248h.006V15H16.5v-.005Z" />
@@ -102,6 +110,7 @@
                     </div>
                 </div>
 
+                <!-- timesheet table list -->
                 <div class="overflow-auto scroll-m-0 rounded-lg w-full h-[500px]">
                     <table class="w-full rounded-lg">
                         <thead class="bg-[#DED9D9]">
@@ -138,7 +147,8 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
+
+            </section>
         </div>
     </main>
 
