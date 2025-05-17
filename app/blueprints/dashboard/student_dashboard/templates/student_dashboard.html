@@ -127,8 +127,8 @@
                             {% for time in timesheet %}
                                 <tr class="border-0 odd:bg-white even:bg-[#DED9D9] hover:bg-gray-300">
                                     <td class="table-data">{{time['date']}}</td>
-                                    <td class="table-data">{{time['time_in'] | format_time}}</td>
-                                    <td class="table-data">{{time['time_out'] | format_time}}</td>
+                                    <td class="table-data">{{time['time_in'] | format_times}}</td>
+                                    <td class="table-data">{{time['time_out'] | format_times}}</td>
                                     <td class="table-data">{{time['hours_worked']}}</td>
                                     <td class="table-data">{{time['status']}}</td>
                                     <td class="w-20 p-2 border-r-1 border-[#ADAAAA] text-sm tracking-wide">{{time['note']}}</td>

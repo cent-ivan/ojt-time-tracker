@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, request, flash, make_response
 from flask_login import login_user, logout_user, login_required, current_user
-from datetime import datetime
+from datetime import datetime, time
 
 from . import test_bp
 from app.blueprints.dashboard.student_dashboard.repositories.student_dashboard_repository import StudentDashboardRepository
@@ -22,27 +22,24 @@ def repo_student_test():
 @test_bp.app_template_filter('format_time')
 def format_time(input_time) -> str:
     try:
-        result = ""
-        if isinstance(input_time, datetime):
+        if isinstance(input_time, (datetime, time)):
             hour = input_time.hour
-            minute = f"{input_time.minute:02d}"
-        
-        else:
+            minute = f"{input_time.minute}"
+
+        elif isinstance(input_time, int):
             if input_time == 0:
-                return "0"
-       
-        if hour > 12:
-            result = f"{hour - 12}:{minute} PM"
-        elif hour == 12:
-            result = f"{hour}:{minute} PM"
+                return "No Time"
+
+
+        # Convert to 12-hour format
+        if hour == 0:
+            return f"12:{minute} AM"
         elif hour < 12:
-            result = f"{hour}:{minute} AM"
+            return f"{hour}:{minute} AM"
+        elif hour == 12:
+            return f"{hour}:{minute} PM"
         else:
-            result = "0"
-        
-        return result
+            return f"{hour - 12}:{minute} PM"
     
-    except AttributeError:
-        return "0"    
-    except:
-        return "0"
+    except Exception as e:
+        return "Invalid time"

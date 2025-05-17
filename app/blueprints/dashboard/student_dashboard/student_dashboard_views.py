@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta, timezone, time
 from flask import render_template,redirect,url_for, request, make_response
 from flask_login import login_required, current_user
 
@@ -33,20 +33,35 @@ def index():
             timesheet = StudentDashboardRepository.get_timesheet(current_user.studentId) #all timesheet
             total_hours = TimeInOutService.compute_overall_total_hours(timesheet)
 
-            timein = StudentDashboardRepository.get_timein(current_user.studentId, current_date)[0] 
-            timestamp = TimeInOutService.display_timestamp(current_user.studentId, is_pressed_cookie, current_date, timein) #get the timestamp to display underneath the button
-            return render_template('student_dashboard.html', 
-                                   uid = uid,
-                                   time_client_display = time_client_display,
-                                   name=name, 
-                                   student_hours=student_total_hours,
-                                   days_count = days_count,
-                                   total_hours = total_hours,
-                                   timesheet = timesheet,
-                                   time=timestamp, 
-                                   is_pressed=is_pressed_cookie, 
-                                   is_showed = 'True'
-                                )
+            if StudentDashboardRepository.get_timein(current_user.studentId, current_date) == None:
+                return render_template('student_dashboard.html', 
+                                    uid = uid,
+                                    time_client_display = time_client_display,
+                                    name=name, 
+                                    student_hours=student_total_hours,
+                                    days_count = days_count,
+                                    total_hours = total_hours,
+                                    timesheet = timesheet,
+                                    time=f"", 
+                                    is_pressed=is_pressed_cookie, 
+                                    is_showed = 'True'
+                                    )
+
+            else:
+                timein = StudentDashboardRepository.get_timein(current_user.studentId, current_date)[0] 
+                timestamp = TimeInOutService.display_timestamp(current_user.studentId, is_pressed_cookie, current_date, timein) #get the timestamp to display underneath the button
+                return render_template('student_dashboard.html', 
+                                    uid = uid,
+                                    time_client_display = time_client_display,
+                                    name=name, 
+                                    student_hours=student_total_hours,
+                                    days_count = days_count,
+                                    total_hours = total_hours,
+                                    timesheet = timesheet,
+                                    time=timestamp, 
+                                    is_pressed=is_pressed_cookie, 
+                                    is_showed = 'True'
+                                    )
         
             
         except KeyError:
@@ -120,30 +135,27 @@ def index():
             )
             return response
         
-@stud_dashboard_bp.app_template_filter('format_time')
+@stud_dashboard_bp.app_template_filter('format_times')
 def format_time(input_time) -> str:
     try:
-        result = ""
-        if isinstance(input_time, datetime):
+        if isinstance(input_time, (datetime, time)):
             hour = input_time.hour
-            minute = f"{input_time.minute:02d}"
-        
-        else:
+            minute = f"{input_time.minute}"
+
+        elif isinstance(input_time, int):
             if input_time == 0:
-                return "0"
-       
-        if hour > 12:
-            result = f"{hour - 12}:{minute} PM"
-        elif hour == 12:
-            result = f"{hour}:{minute} PM"
+                return "No Time"
+
+
+        # Convert to 12-hour format
+        if hour == 0:
+            return f"12:{minute} AM"
         elif hour < 12:
-            result = f"{hour}:{minute} AM"
+            return f"{hour}:{minute} AM"
+        elif hour == 12:
+            return f"{hour}:{minute} PM"
         else:
-            result = "0"
-        
-        return result
+            return f"{hour - 12}:{minute} PM"
     
-    except AttributeError:
-        return "0"    
-    except:
-        return "0"
+    except Exception as e:
+        return "Invalid time"
