@@ -70,24 +70,48 @@ def index():
             timesheet = StudentDashboardRepository.get_timesheet(current_user.studentId)
             total_hours = TimeInOutService.compute_overall_total_hours(timesheet)
             time_expiration = datetime.now(timezone.utc) + timedelta(hours=20)
-            response = make_response( render_template('student_dashboard.html', 
-                                                      uid = uid,
-                                                      time_client_display = time_client_display,
-                                                      name=name, 
-                                                      student_hours=student_total_hours,
-                                                      days_count = days_count,
-                                                      total_hours = total_hours,
-                                                      timesheet = timesheet,
-                                                      time=f"", 
-                                                      is_pressed='False', 
-                                                      is_showed = 'False')
-                                                )
-            response.set_cookie(
-                key='time_pressed',
-                value='False',
-                expires = time_expiration
-            )
-            return response
+
+            timein = StudentDashboardRepository.get_timein(current_user.studentId, current_date)
+            
+            if timein == None:
+                response = make_response( render_template('student_dashboard.html', 
+                                                        uid = uid,
+                                                        time_client_display = time_client_display,
+                                                        name=name, 
+                                                        student_hours=student_total_hours,
+                                                        days_count = days_count,
+                                                        total_hours = total_hours,
+                                                        timesheet = timesheet,
+                                                        time=f"", 
+                                                        is_pressed='False', 
+                                                        is_showed = 'False')
+                                                    )
+                response.set_cookie(
+                    key='time_pressed',
+                    value='False',
+                    expires = time_expiration
+                )
+                return response
+            else:
+                #app check if the user is timed in
+                response = make_response( render_template('student_dashboard.html', 
+                                                        uid = uid,
+                                                        time_client_display = time_client_display,
+                                                        name=name, 
+                                                        student_hours=student_total_hours,
+                                                        days_count = days_count,
+                                                        total_hours = total_hours,
+                                                        timesheet = timesheet,
+                                                        time=f"", 
+                                                        is_pressed='True', 
+                                                        is_showed = 'True')
+                                                    )
+                response.set_cookie(
+                    key='time_pressed',
+                    value='True',
+                    expires = time_expiration
+                )
+                return response
         
         # except:
         #     return "An Uknown Error"
