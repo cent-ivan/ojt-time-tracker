@@ -10,6 +10,7 @@ from .repositories.student_dashboard_repository import StudentDashboardRepositor
 @login_required
 def index():
     if request.method == 'GET':
+        uid = current_user.studentId
         name = current_user.studentName
         student_total_hours = current_user.totalHours
         days_count = StudentDashboardRepository.get_count_days(current_user.studentId)
@@ -35,6 +36,7 @@ def index():
             timein = StudentDashboardRepository.get_timein(current_user.studentId, current_date)[0] 
             timestamp = TimeInOutService.display_timestamp(current_user.studentId, is_pressed_cookie, current_date, timein) #get the timestamp to display underneath the button
             return render_template('student_dashboard.html', 
+                                   uid = uid,
                                    time_client_display = time_client_display,
                                    name=name, 
                                    student_hours=student_total_hours,
