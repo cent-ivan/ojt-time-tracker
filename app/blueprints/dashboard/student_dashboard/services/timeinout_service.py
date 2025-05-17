@@ -21,7 +21,7 @@ class TimeInOutService:
         return {'client': client_time, 'server':server_time}
     
     @staticmethod
-    def get_date() -> dict:
+    def get_date() -> str:
         time = datetime.now()
         date = time.strftime('%Y-%m-%d')
         return date
