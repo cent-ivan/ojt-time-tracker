@@ -11,7 +11,7 @@ class LoginRepository:
             user = AdviserModel.query.filter(AdviserModel.email == email).first()
             if user:
                 return user
-            return 0
+            return None
         except SQLAlchemyError as e:
             return f'An error returned {str(e)}'
         
@@ -21,6 +21,6 @@ class LoginRepository:
             user = StudentModel.query.filter(StudentModel.email == email).first()
             if user:
                 return user
-            return 0 #returns 0 if none
+            return None #returns none if 0 results
         except SQLAlchemyError as e:
             return f'An error returned {str(e)}' 

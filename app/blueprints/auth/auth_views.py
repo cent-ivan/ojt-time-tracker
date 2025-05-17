@@ -41,7 +41,7 @@ def adviser_login():
                 flash('Incorrect password. Check your credentials')
                 return redirect(url_for('auth.adviser_login'))
             
-            if user == 0:
+            if user is None:
                 flash('User do not exist. Check your credentials')
                 return redirect(url_for('auth.adviser_login'))
                 
@@ -72,7 +72,7 @@ def student_login():
         
         #CHECK
         user = LoginRepository.check_student(email)
-        if user == 0:
+        if user is None:
             flash('User do not exist. Check your credentials')
             return redirect(url_for('auth.student_login'))
                 
