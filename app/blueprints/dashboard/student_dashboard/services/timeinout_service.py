@@ -6,8 +6,10 @@ class TimeInOutService:
     def display_timestamp(id, press_type, date, timein):
         #for getting timed in or out timestamp when user loaded first time the app
         if press_type == 'True':
-            if timein.hour >= 12:
+            if timein.hour > 12:
                 return f'Timed in at {date}, {timein.hour - 12}:{timein.minute}:{timein.second} PM' #SELECT date, time_in FROM timesheettbl;
+            elif timein.hour == 12:
+                return f'Timed in at {date}, {timein} PM' #SELECT date, time_in FROM timesheettbl;
             else:
                 return f'Timed in at {date}, {timein} AM' #SELECT date, time_in FROM timesheettbl;
         else:
