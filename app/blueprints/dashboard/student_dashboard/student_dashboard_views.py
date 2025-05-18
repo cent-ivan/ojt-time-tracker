@@ -187,3 +187,16 @@ def format_time(input_time) -> str:
     
     except Exception as e:
         return f"Invalid time {e}"
+    
+
+@stud_dashboard_bp.app_template_filter('format_capitalize')
+def format_capitalize(word) -> str:
+    data = word.strip(' ')
+    data = data.split(' ')
+
+    result = []
+    for word in data:
+        result.append(word.capitalize())
+
+    data = " ".join(result)
+    return data
