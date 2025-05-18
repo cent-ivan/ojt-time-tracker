@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student View</title>
+
+    <link rel="stylesheet" href="../../static/css/main.css">
+</head>
+<body class="px-6 py-5 bg-[#D1E0C8]">
+    <main class="flex justify-center flex-col h-[80%]">
+        <div class="flex justify-end">
+            <!-- Back button -->
+            <a href="{{ url_for('adviser_home.index') }}">
+                <button class="rounded w-[5rem] p-1 bg-(background-color:--base-color) hover:bg-amber-200 font-bold cursor-pointer">Back</button>
+            </a>
+        </div>
+        <section class="flex justify-between">
+            <h1 class="sr-only">View Details</h1>
+            <div class="p-2">
+                <h2 class="font-bold text-2xl">{{data.studentName}}</h2>
+                <p>Works at {{data.companyName}}</p>
+            </div>
+
+            <!-- Computation table -->
+            <div class="w-[50%]">
+                <section class="col-start-1 row-start-3 flex items-center justify-center p-5">
+                    <!-- INCLUDE `sr-only` when sectioning  -->
+                    <h2 class="sr-only">Computation Table</h2>
+                    <div class="overflow-auto rounded-lg w-full">
+                        <table class="w-full">
+                            <thead class="bg-[#DED9D9]">
+                                <tr class="rounded-md ">
+                                    <th class="table-header">Total Days</th>
+                                    <th class="table-header">Total Hours</th>
+                                    <th class="table-header">Remaining Hours</th>
+                                    <th class="w-15 p-2 text-sm font-semibold tracking-wide whitespace-nowrap">Remaining Days</th>
+                                </tr>
+                            </thead>
+                            <tbody class= "bg-[#FFFFFF] divide-y">
+                                <tr>
+                                    <td class="table-data">{{days_count}} Day/s</td>
+                                    <td class="table-data">{{total_hours}}</td>
+                                    <td class="table-data">{{data.totalHours - total_hours}}</td>
+                                    <td class="w-15 p-2 text-sm text-center tracking-wide border-[#ADAAAA]">{{(data.totalHours - total_hours) // 8}} Day/s</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </section>
+
+
+        <section class="h-full">
+            <h1 class="sr-only">Timesheet table</h1>
+                <!-- timesheet table list -->
+                <div class="overflow-auto scroll-m-0 rounded-lg w-full h-[500px]">
+                    <table class="w-full rounded-lg">
+                        <thead class="bg-[#DED9D9]">
+                            <tr class="rounded-md ">
+                                <th class="table-header">Date</th>
+                                <th class="table-header">Time In</th>
+                                <th class="table-header">Time Out</th>
+                                <th class="w-12 border-r-1 border-[#ADAAAA] text-sm font-semibold tracking-tighter whitespace-nowrap">Hours Worked</th>
+                                <th class="w-12 border-r-1 border-[#ADAAAA] text-sm font-semibold whitespace-nowrap">Daily Status</th>
+                                <th class="w-20 p-2 text-sm font-semibold tracking-wide">Note</th>
+                            </tr>
+                        </thead>
+                        <tbody class= "bg-[#FFFFFF] divide-y">
+                            {% for time in timesheet %}
+                                <tr class="border-0 odd:bg-white even:bg-[#DED9D9] hover:bg-gray-300">
+                                    <td class="table-data">{{time['date']}}</td>
+                                    <td class="table-data">{{time['time_in'] | format_times}}</td>
+                                    <td class="table-data">{{time['time_out'] | format_times}}</td>
+                                    <td class="table-data">{{time['hours_worked']}}</td>
+                                    <td class="table-data">{{time['status']}}</td>
+                                    <td class="w-20 p-2 border-r-1 border-[#ADAAAA] text-sm tracking-wide">{{time['note']}}</td>
+                                </tr>
+                            {% endfor %}
+                            {% for i in range(15 - timesheet|length) %}
+                                    <tr class="border-0 odd:bg-white even:bg-[#DED9D9] hover:bg-gray-300">
+                                        <td class="table-data h-8"> </td>
+                                        <td class="table-data h-8"> </td>
+                                        <td class="table-data h-8"> </td>
+                                        <td class="table-data h-8"> </td>
+                                        <td class="table-data h-8"> </td>
+                                        <td class="w-20 p-2 border-r-1 border-[#ADAAAA] text-sm tracking-wide"> </td>
+                                    </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+        </section>
+    </main>
+
+</body>
+</html>

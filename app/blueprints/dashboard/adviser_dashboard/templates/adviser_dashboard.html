@@ -3,9 +3,86 @@
 {% block title %} Adviser Dashboard {% endblock %}
 
 {% block content %}
-    <div>
-        Adiviser {{ uid }}
+    <!-- nav bar -->
+    <nav class="flex justify-between items-center px-4 bg-[#A6BF8E]">
+        <h2 class="text-xl font-bold">
+            OJT Timestamp Counter (Adviser)
+        </h2>
 
-        <a href="{{ url_for('auth.logout') }}">Logout</a>
-    </div>
+        <div class="flex">
+            <div class="flex items-center justify-center"> {{ name }} </div>
+            <a href="{{ url_for('auth.logout',user_type='adviser', uid=uid) }}"  title="Logout" class="flex items-center justify-center w-[3em] h-[3em] hover:bg-[#ACC497]">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                </svg>
+            </a>
+        </div>
+    </nav>
+
+
+    <main class="h-[80%]">
+        <div class="flex items-center justify-center m-3">
+            <div class="flex flex-col gap-2 w-full p-2">
+                <section class="flex w-full p-2 bg-[#DED9D9]">
+                    <h1 class="w-[30%] font-bold text-4xl">Student List</h1>
+
+                    <form action="{{ url_for('adviser_home.index') }}" method="post" class="w-[80%] gap-2">
+                        <input name="search" id="search" type="text" placeholder="Search name" class="rounded-md w-[50%] px-2 py-2 bg-[#FAFAFA] hover:bg-[#FFFFFF] hover:outline-2">
+                        <button type="submit" class="rounded w-[5rem] p-1 bg-(background-color:--base-color) hover:bg-amber-200 font-bold cursor-pointer">Search</button>    
+                    </form>
+                </section>
+
+                <div class="flex w-full p-2 bg-[#DED9D9]">
+                    <h1 class="w-[15%] font-bold text-[80%]">{{school}} Students</h2>
+                </div>
+
+                <div class="overflow-auto rounded-lg w-full h-[450px]">
+                    <table class="w-full h-full rounded-lg">
+                        <thead class="bg-[#DED9D9]">
+                            <tr class="rounded-md">
+                                <th class="table-header">ID</th>
+                                <th class="table-header">Name</th>
+                                <th class="w-12 border-r-1 border-[#ADAAAA] text-sm font-semibold tracking-tighter whitespace-nowrap">Company</th>
+                                <th class="w-12 border-r-1 border-[#ADAAAA] text-sm font-semibold tracking-tighter whitespace-nowrap">Email</th>
+                                <th class="w-12 border-r-1 border-[#ADAAAA] text-sm font-semibold tracking-tighter whitespace-nowrap">Remaining Hours</th>
+                                <th class="w-12 border-r-1 border-[#ADAAAA] text-sm font-semibold tracking-tighter whitespace-nowrap">Remaining Days</th>
+                                <th class="w-12 p-2 text-sm font-semibold tracking-wide">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class= "bg-[#FFFFFF] divide-y">
+                            {% for ojt in ojt_list %}
+                                    <tr class="border-0 odd:bg-white even:bg-[#DED9D9] hover:bg-gray-300">
+                                        <td class="table-data h-8">{{ojt['student_id']}}</td>
+                                        <td class="table-data h-8">{{ojt['student_name'] | format_capitalize}}</td>
+                                        <td class="table-data h-8">{{ojt['company']}}</td>
+                                        <td class="table-data h-8">{{ojt['email']}}</td>
+                                        <td class="table-data h-8">{{ojt['remaining_hours']}}</td>
+                                        <td class="table-data h-8">{{ojt['remaining_days']}}</td>
+                                        <td class="p-2 border-r-1 border-[#ADAAAA] text-sm tracking-wide">
+                                            <a href="{{url_for('adviser_home.view_student', uid=ojt['student_id'])}}">
+                                                <button class="rounded w-[5rem] p-1 bg-(background-color:--base-color) hover:bg-amber-200 text-sm font-bold cursor-pointer">View</button> 
+                                            </a>
+                                        </td>
+                                    </tr>
+                            {% endfor %}
+                            {% for ojt in range(12 - ojt_list | length)%}
+                                    <tr class="border-0 odd:bg-white even:bg-[#DED9D9] hover:bg-gray-300">
+                                        <td class="table-data h-8"></td>
+                                        <td class="table-data h-8"></td>
+                                        <td class="table-data h-8"></td>
+                                        <td class="table-data h-8"></td>
+                                        <td class="table-data h-8"></td>
+                                        <td class="table-data h-8"></td>
+                                        <td class="p-2 border-r-1 border-[#ADAAAA] text-sm tracking-wide"></td>
+                                    </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+        
+    </main>
 {% endblock %}
