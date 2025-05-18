@@ -165,7 +165,7 @@ def format_time(input_time) -> str:
         result = ""
         if isinstance(input_time, (datetime, time)):
             hour = input_time.hour
-            minute = f"{input_time.minute}"
+            minute = f"{input_time.minute}" if input_time.minute > 9 else f"0{input_time.minute}"
 
         elif isinstance(input_time, int):
             if input_time == 0:
