@@ -65,7 +65,7 @@ class SignUpRepository:
             
             data = StudentModel(
                 studentId =  user['uid'],
-                studentName = user['name'].capitalize(),
+                studentName = user['name'].upper(),
                 email = user['email'],
                 schoolId = user['school_id'],
                 companyName = user['company'],
@@ -111,7 +111,7 @@ class SignUpRepository:
             else:
                 data = AdviserModel(
                     adviserId=user['uid'], 
-                    adviserName=user['name'].capitalize(), 
+                    adviserName=user['name'].upper(), 
                     email=user['email'], 
                     schoolName=user['school'], 
                     userType=user['type'],
