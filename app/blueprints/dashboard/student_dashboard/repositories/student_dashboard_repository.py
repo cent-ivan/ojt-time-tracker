@@ -5,7 +5,7 @@ from ..student_dashboard_models import TimeSheetModel
 
 
 class StudentDashboardRepository:
-    
+    #GET student timesheet
     @staticmethod
     def get_timesheet(uid):
         timesheet = TimeSheetModel.query.filter(TimeSheetModel.studentId == uid).all()
@@ -33,6 +33,7 @@ class StudentDashboardRepository:
         return db.session.execute(qry).first()[0]
     
 
+    #COUNTS the days
     @staticmethod
     def get_count_days(uid) -> int:
         #for counting the days
@@ -42,7 +43,7 @@ class StudentDashboardRepository:
         else:
             return qry
 
-    #FOR TIMEIN
+    #RECORDING TIME IN IN DB
     @staticmethod
     def insert_timein(uid, date, timein):
         #checks first for an existing date
@@ -55,7 +56,7 @@ class StudentDashboardRepository:
             db.session.execute(update_qry)
             db.session.commit()
 
-    #FOR TIMEOUT
+    #RECORDING TIME OUT IN DB
     def insert_timeout(uid, date, timeout, hours_worked, status, note):
         update_qry = update(TimeSheetModel).values(timeOut = timeout, hoursWorked = hours_worked, dutyStatus = status, note = note).where(and_( TimeSheetModel.studentId==uid, TimeSheetModel.date == date))
         db.session.execute(update_qry)
