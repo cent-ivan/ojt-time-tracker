@@ -14,13 +14,3 @@ migrate = Migrate()
 
 login_manager = LoginManager()
 bcrypt = Bcrypt()
-
-class PostgresDatabase():
-    #for psycopg2 config
-    def __init__(self, **params):
-        self.host = params["host"]
-        self.default_db = params["default_db"]
-        self.user = params["user"]
-        self.password = params["password"]
-        self.port = params["port"]
-        self.database = params["database"]

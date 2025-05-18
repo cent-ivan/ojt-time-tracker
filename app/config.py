@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 import os
 
 from .blueprints.central_models import *
-from .extensions import PostgresDatabase
+
 
 load_dotenv()
 
@@ -38,14 +38,24 @@ class LoginManagerConfig():
 
 #psycopg2 config
 class PostgresDatabaseConfig():
-    HOST = os.getenv('HOST')
-    DEFAULT_DB = os.getenv('DEFAULT_DB')
-    USER = os.getenv('USER')
-    PASSWORD = os.getenv('PASSWORD')
-    PORT = os.getenv('PORT')
-    DATABASE_NAME = os.getenv('DATABASE_NAME')
+    def __init__(self):
+        self.HOST = os.getenv('HOST')
+        self.USER = os.getenv('USER')
+        self.PASSWORD = os.getenv('PASSWORD')
+        self.PORT = os.getenv('PORT')
+        self.DATABASE_NAME = os.getenv('DATABASE_NAME')
+
+    #since psycopg2.connect accept keyword arguments, then you can use **.
+    @staticmethod
+    def return_dict(self) -> dict:
+        return {
+            'host' : self.HOST,
+            'dbname' : self.DATABASE_NAME,
+            'user' : self.USER,
+            'password' : self.PASSWORD,
+            'port' : self.port
+        }
     
-    db_conn = PostgresDatabase(host=HOST, default_db=DEFAULT_DB, user=USER, password=PASSWORD, port=PORT, database=DATABASE_NAME)
 
 
            
