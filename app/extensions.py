@@ -5,6 +5,8 @@ from sqlalchemy.exc import SQLAlchemyError,IntegrityError
 from flask_migrate import Migrate
 from flask_login import LoginManager, UserMixin
 from flask_bcrypt import Bcrypt
+import psycopg2
+from psycopg2 import sql
 
 
 db = SQLAlchemy()
