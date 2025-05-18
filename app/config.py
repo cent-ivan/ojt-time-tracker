@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 import os
 
 from .blueprints.central_models import *
+from .extensions import PostgresDatabase
 
 load_dotenv()
 
@@ -33,4 +34,18 @@ class LoginManagerConfig():
         @login_manager.unauthorized_handler  #if the user is not authorized it will redirect in this endpoint
         def unauthorized_callback():
             return redirect(url_for('auth.logout'))
+
+
+#psycopg2 config
+class PostgresDatabaseConfig():
+    HOST = os.getenv('HOST')
+    DEFAULT_DB = os.getenv('DEFAULT_DB')
+    USER = os.getenv('USER')
+    PASSWORD = os.getenv('PASSWORD')
+    PORT = os.getenv('PORT')
+    DATABASE_NAME = os.getenv('DATABASE_NAME')
+    
+    db_conn = PostgresDatabase(host=HOST, default_db=DEFAULT_DB, user=USER, password=PASSWORD, port=PORT, database=DATABASE_NAME)
+
+
            
