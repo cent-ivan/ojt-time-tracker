@@ -1,7 +1,6 @@
 from ....extensions import db, insert, select, and_, SQLAlchemyError, IntegrityError
 from ..auth_models import SchoolsModel, AdviserModel, StudentModel
 
-from ..utils.signup_error_checker import SignUpErrorChecker
 
 class LoginRepository:
     #LOGIN-----------------------------------------------------------------------------------

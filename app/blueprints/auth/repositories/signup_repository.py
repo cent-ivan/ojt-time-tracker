@@ -1,7 +1,7 @@
 from ....extensions import db, insert, select, and_, SQLAlchemyError, IntegrityError
 from ..auth_models import SchoolsModel, AdviserModel, StudentModel, OjtListModel
 
-from ..utils.signup_error_checker import SignUpErrorChecker
+from ..utils.signup_error_helpers import SignUpErrorHelper
 
 #This serve as an interaction with the view to the database. SQL queries are performed here
 
@@ -61,7 +61,7 @@ class SignUpRepository:
             
             
             if email_adviser or email_student:
-                return SignUpErrorChecker.signup_error_checker('email')
+                return SignUpErrorHelper.signup_error_checker('email')
             
             data = StudentModel(
                 studentId =  user['uid'],
@@ -106,8 +106,8 @@ class SignUpRepository:
             if school:
                 if email:
                     #assign error type
-                    return SignUpErrorChecker.signup_error_checker('email')
-                return SignUpErrorChecker.signup_error_checker('school')
+                    return SignUpErrorHelper.signup_error_checker('email')
+                return SignUpErrorHelper.signup_error_checker('school')
             else:
                 data = AdviserModel(
                     adviserId=user['uid'], 
@@ -125,7 +125,7 @@ class SignUpRepository:
                 return 200
         #If user already exists
         except IntegrityError:
-            return SignUpErrorChecker.signup_error_checker('user')
+            return SignUpErrorHelper.signup_error_checker('user')
         except SQLAlchemyError as e:
             return f'An error returned {str(e)}'
 

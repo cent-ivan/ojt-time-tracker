@@ -1,7 +1,7 @@
 #create error handling pages here like no priveleges, database error, connection/networking error
 
-class SignUpErrorChecker:
-    #error handling functions
+class SignUpErrorHelper:
+    #error handling functions, FOR NOTIFICATIONS in the client side
     @staticmethod
     def signup_error_checker(err_type) -> str:
         match err_type:
