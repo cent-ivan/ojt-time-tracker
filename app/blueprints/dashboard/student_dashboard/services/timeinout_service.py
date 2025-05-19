@@ -29,10 +29,10 @@ class TimeInOutService:
         return date
     
     @staticmethod
-    def compute_total_hours(timein:datetime, timeout:datetime, status):
+    def compute_total_hours(timein:datetime, timeout, status):
         if status == 'Double':
-            ti = timein #gets the time in the database
-            to = datetime.strptime(timeout, '%H:%M:%S') #cinverts strftime to datetime obbject
+            ti = timein.hour #gets the time in the database
+            to = datetime.strptime(timeout, '%H:%M:%S').hour #cinverts strftime to datetime obbject
             hours_worked = None
 
             if ti > 12:

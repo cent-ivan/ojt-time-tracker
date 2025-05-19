@@ -12,7 +12,7 @@ class LoginRepository:
                 return user
             return None
         except SQLAlchemyError as e:
-            return f'An error returned {str(e)}'
+            raise ValueError(f'An error returned {str(e)}') 
         
     @staticmethod
     def check_student(email):
@@ -22,4 +22,4 @@ class LoginRepository:
                 return user
             return None #returns none if 0 results
         except SQLAlchemyError as e:
-            return f'An error returned {str(e)}' 
+            raise ValueError(f'An error returned {str(e)}') 

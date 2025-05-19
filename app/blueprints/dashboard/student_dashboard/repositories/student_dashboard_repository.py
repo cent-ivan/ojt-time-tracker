@@ -28,9 +28,12 @@ class StudentDashboardRepository:
         return db.session.execute(qry).first()
     
     @staticmethod
-    def get_timeOut(uid, date):
+    def get_timeout(uid, date):
         qry = select(TimeSheetModel.timeOut, TimeSheetModel.date).where(and_(TimeSheetModel.studentId == uid, TimeSheetModel.date == date))
-        return db.session.execute(qry).first()[0]
+        timeout = db.session.execute(qry).first()
+        if timeout == None:
+            return None
+        return timeout[0]
     
 
     #COUNTS the days
@@ -57,6 +60,7 @@ class StudentDashboardRepository:
             db.session.commit()
 
     #RECORDING TIME OUT IN DB
+    @staticmethod
     def insert_timeout(uid, date, timeout, hours_worked, status, note):
         update_qry = update(TimeSheetModel).values(timeOut = timeout, hoursWorked = hours_worked, dutyStatus = status, note = note).where(and_( TimeSheetModel.studentId==uid, TimeSheetModel.date == date))
         db.session.execute(update_qry)

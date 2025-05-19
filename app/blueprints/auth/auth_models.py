@@ -15,6 +15,7 @@ class AdviserModel(db.Model, UserMixin):
 
     school = orm.relationship('SchoolsModel', back_populates='adviser')
 
+
     #create this for overriding the User_loader in login_manager -> goto config.py. NOTE you can override methods in packages
     def get_id(self):
         return str(self.adviserId)
