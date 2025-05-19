@@ -14,5 +14,3 @@ wheels/
 node_modules/
 app/static/css/main.css
 !app/static/scripts/*
-
-firebase-sdk.json
