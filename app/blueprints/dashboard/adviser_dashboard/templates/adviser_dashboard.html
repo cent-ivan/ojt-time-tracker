@@ -5,13 +5,13 @@
 {% block content %}
     <!-- nav bar -->
     <nav class="flex justify-between items-center px-4 bg-[#A6BF8E]">
-        <h2 class="text-xl font-bold">
+        <h2 class="text-xl font-bold max-md:text-sm">
             OJT Timestamp Counter (Adviser)
         </h2>
 
         <div class="flex">
-            <div class="flex items-center justify-center"> {{ name }} </div>
-            <a href="{{ url_for('auth.logout',user_type='adviser', uid=uid) }}"  title="Logout" class="flex items-center justify-center w-[3em] h-[3em] hover:bg-[#ACC497]">
+            <div class="flex items-center justify-center max-md:text-[12px]"> {{ name }} </div>
+            <a href="{{ url_for('auth.logout',user_type='adviser', uid=uid) }}"  title="Logout" class="flex items-center justify-center w-[3em] h-[3em] hover:bg-[#ACC497] max-md:w-[1em]">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
                 </svg>
@@ -20,23 +20,23 @@
     </nav>
 
 
-    <main class="h-[80%]">
+    <main class="h-[80%] max-md:h-full">
         <div class="flex items-center justify-center m-3">
             <div class="flex flex-col gap-2 w-full p-2">
-                <section class="flex w-full p-2 bg-[#DED9D9]">
-                    <h1 class="w-[30%] font-bold text-4xl">Student List</h1>
+                <section class="flex w-full p-2 bg-[#DED9D9] max-md:flex-col">
+                    <h1 class="w-[30%] font-bold text-4xl max-md:w-full">Student List</h1>
 
-                    <form action="{{ url_for('adviser_home.index') }}" method="post" class="w-[80%] gap-2">
+                    <form action="{{ url_for('adviser_home.index') }}" method="post" class="w-[80%] gap-2 max-md:w-full">
                         <input name="search" id="search" type="text" placeholder="Search name" class="rounded-md w-[50%] px-2 py-2 bg-[#FAFAFA] hover:bg-[#FFFFFF] hover:outline-2">
                         <button type="submit" class="rounded w-[5rem] p-1 bg-(background-color:--base-color) hover:bg-amber-200 font-bold cursor-pointer">Search</button>    
                     </form>
                 </section>
 
                 <div class="flex w-full p-2 bg-[#DED9D9]">
-                    <h1 class="w-[15%] font-bold text-[80%]">{{school}} Students</h2>
+                    <h1 class="font-bold text-[80%]">{{school}} Students</h2>
                 </div>
 
-                <div class="overflow-auto rounded-lg w-full h-[450px]">
+                <div class="overflow-auto rounded-lg w-full h-[450px] max-md:h-[400px]">
                     <table class="w-full h-full rounded-lg">
                         <thead class="bg-[#DED9D9]">
                             <tr class="rounded-md">

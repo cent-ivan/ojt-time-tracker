@@ -14,7 +14,7 @@ class SignUpRepository:
             schools = SchoolsModel.query.all()
             return schools
         except SQLAlchemyError as e:
-            return f'An error returned {str(e)}'
+            raise ValueError(f'An error returned {str(e)}')
 
 
     #convert word to school id
@@ -23,9 +23,11 @@ class SignUpRepository:
         try:
             school = SchoolsModel.query.filter(SchoolsModel.schoolName==school_name).first()
 
-            return school.schoolId
+            if school:
+                return school.schoolId
+            return None
         except SQLAlchemyError as e:
-            return f'An error returned {str(e)}'
+            raise ValueError(f'An error returned {str(e)}')
         
     
     #for id
@@ -48,12 +50,12 @@ class SignUpRepository:
                 else:
                     return 1
         except SQLAlchemyError as e:
-            return f'An error returned {str(e)}'
+            raise ValueError(f'An error returned {str(e)}')
 
 
     #INSERT STUDENT TO DB--------------------------------
     @staticmethod
-    def insert_student(**user) -> str:
+    def insert_student(**user):
         try:
             #check first if the email is unique
             email_adviser = StudentModel.query.filter(StudentModel.email==user['email']).first()
@@ -64,15 +66,15 @@ class SignUpRepository:
                 return SignUpErrorHelper.signup_error_checker('email')
             
             data = StudentModel(
-                studentId =  user['uid'],
-                studentName = user['name'].upper(),
-                email = user['email'],
-                schoolId = user['school_id'],
-                companyName = user['company'],
-                totalHours = user['total_hours'],
-                userType = user['type'],
-                password = user['password'],
-                isActive = user['active']
+                studentId =  user['uid'], # type: ignore
+                studentName = user['name'].upper(), # type: ignore
+                email = user['email'], # type: ignore # type: ignore
+                schoolId = user['school_id'], # type: ignore
+                companyName = user['company'], # type: ignore
+                totalHours = user['total_hours'], # type: ignore
+                userType = user['type'], # type: ignore
+                password = user['password'], # type: ignore
+                isActive = user['active'] # type: ignore
             )
             db.session.add(data)
 
@@ -110,12 +112,12 @@ class SignUpRepository:
                 return SignUpErrorHelper.signup_error_checker('school')
             else:
                 data = AdviserModel(
-                    adviserId=user['uid'], 
-                    adviserName=user['name'].upper(), 
-                    email=user['email'], 
-                    schoolName=user['school'], 
-                    userType=user['type'],
-                    password = user['password']
+                    adviserId=user['uid'],  # type: ignore
+                    adviserName=user['name'].upper(),  # type: ignore
+                    email=user['email'],  # type: ignore
+                    schoolName=user['school'],  # type: ignore
+                    userType=user['type'], # type: ignore
+                    password = user['password'] # type: ignore
                 )
                 
                 db.session.add(data)
