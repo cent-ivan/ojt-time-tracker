@@ -15,7 +15,7 @@ def repo_student_test():
     is_pressed = request.cookies['time_pressed']
     user = current_user.studentName
     timein_test = {'method_name':'StudentDashboardRepository.get_timein', 'data': StudentDashboardRepository.get_timein(uid, date)[0]} 
-    timeout_test = {'method_name':'StudentDashboardRepository.get_timeOut', 'data': StudentDashboardRepository.get_timeOut(uid, date)} 
+    timeout_test = {'method_name':'StudentDashboardRepository.get_timeOut', 'data': StudentDashboardRepository.get_timeout(uid, date)} 
     return render_template(template_name_or_list='repo_unit_test.html', title=title, is_pressed=is_pressed, user=user, timein_test=timein_test, timeout_test=timeout_test)
 
 
