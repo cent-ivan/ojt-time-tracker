@@ -6,6 +6,7 @@ from flask import redirect, url_for
 from dotenv import load_dotenv
 import os
 
+
 from .blueprints.central_models import *
 
 
@@ -20,6 +21,7 @@ class DevelopmentConfig(Config):
     PERMANENT_SESSION_LIFETIME = timedelta(hours=24)
 
 class LoginManagerConfig():
+    @staticmethod
     def config_login(login_manager):
         @login_manager.user_loader
         def load_user(user):
