@@ -14,6 +14,8 @@ class AdviserDashboardRepository:
         try:
             school = SchoolsModel.query.filter(SchoolsModel.schoolName==school_name).first()
 
+            if school == None:
+                return None
             return school.schoolId
         except SQLAlchemyError as e:
             return f'An error returned {str(e)}'
