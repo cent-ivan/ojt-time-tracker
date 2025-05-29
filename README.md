@@ -26,10 +26,10 @@ The OJT Time Tracker app is a personal project in which the students can keep tr
 
 ## Installation
 ### Install via git clone.
- 1. In your terminal, run the  ```shell git clone https://github.com/cent-ivan/ojt-time-tracker.git```
- 2. Download npm, and run the ```shell npm install```
- 3. Run this command to generate a tailwind file ```shell npm dev run```
- 4. Finally, run ``shell uv pip freeze -r requirements.txt` to install required python libraries.
+ 1. In your terminal, run the  ``` git clone https://github.com/cent-ivan/ojt-time-tracker.git```
+ 2. Download npm, and run the ``` npm install```
+ 3. Run this command to generate a tailwind file ``` npm dev run```
+ 4. Finally, run ` uv pip freeze -r requirements.txt` to install required python libraries.
  - Note: (This project uses [uv](https://docs.astral.sh/uv/getting-started/installation/) as a faster alternative to pip. if using pip, run `pip3 freeze -r requirements.txt`)
 
 ## Usage
