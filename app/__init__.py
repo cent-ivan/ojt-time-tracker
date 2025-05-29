@@ -11,9 +11,9 @@ def create_app():
     app = Flask(__name__, template_folder='blueprints/templates')
     app.config.from_object(DevelopmentConfig())
 
-    from .extensions import db, migrate, login_manager, bcrypt #loads db, but not yet used
+    from .extensions import db, login_manager #loads db, but not yet used
     db.init_app(app)                                            #uses db
-    migrate.init_app(app, db)
+
 
     from .blueprints.central_models import all_models       #loads all of the models
 
