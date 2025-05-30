@@ -1,6 +1,6 @@
 from datetime import date, datetime
 
-from .....extensions import db, insert, update, select, and_, SQLAlchemyError, IntegrityError, psycopg2
+from .....extensions import db, insert, update, select, and_, SQLAlchemyError, IntegrityError, psycopg, LiteralString, cast
 from ...student_dashboard.student_dashboard_models import TimeSheetModel
 from ....auth.auth_models import SchoolsModel, StudentModel
 
@@ -24,7 +24,7 @@ class AdviserDashboardRepository:
     @staticmethod
     def load_query(filename):
         with open(f'app/sql/{filename}','r') as sql:
-            return sql.read()
+            return cast(LiteralString, sql.read())
     
     #returns a list list of tuples with data, raw data needs to be formated
     @staticmethod
@@ -33,7 +33,7 @@ class AdviserDashboardRepository:
         try:
             school_id = AdviserDashboardRepository.get_school_id(school_name)
             data = []
-            with psycopg2.connect(**PostgresDatabaseConfig().return_dict()) as conn:
+            with psycopg.connect(**PostgresDatabaseConfig().return_dict()) as conn:
                 with conn.cursor() as cur:
                     query = AdviserDashboardRepository.load_query('get_ojt_list.sql')
                     cur.execute(query, (school_id,))
@@ -41,7 +41,7 @@ class AdviserDashboardRepository:
 
             return data
 
-        except psycopg2.Error as Error:
+        except psycopg.Error as Error:
             print("Error in Postgre", Error)
     
 
@@ -52,7 +52,7 @@ class AdviserDashboardRepository:
         try:
             school_id = AdviserDashboardRepository.get_school_id(school_name)
             data = []
-            with psycopg2.connect(**PostgresDatabaseConfig().return_dict()) as conn:
+            with psycopg.connect(**PostgresDatabaseConfig().return_dict()) as conn:
                 with conn.cursor() as cur:
                     query = AdviserDashboardRepository.load_query('get_ojt_list_filter.sql')
                     cur.execute(query, (school_id, search_data,))
@@ -60,7 +60,7 @@ class AdviserDashboardRepository:
 
             return data
 
-        except psycopg2.Error as Error:
+        except psycopg.Error as Error:
             print("Error in Postgre", Error)
 
     

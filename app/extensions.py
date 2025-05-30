@@ -4,9 +4,9 @@ from sqlalchemy import ForeignKey, orm, insert, select, update, and_, or_
 from sqlalchemy.exc import SQLAlchemyError,IntegrityError
 from flask_login import LoginManager, UserMixin
 from flask_bcrypt import Bcrypt
-import psycopg2
-from psycopg2 import sql
-
+import psycopg
+from psycopg import sql
+from typing import LiteralString, cast
 
 db = SQLAlchemy()
 
