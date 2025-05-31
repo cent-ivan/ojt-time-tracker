@@ -6,9 +6,10 @@ from flask_login import LoginManager, UserMixin
 from flask_bcrypt import Bcrypt
 import psycopg
 from psycopg import sql
+from flask_migrate import Migrate
 from typing import LiteralString, cast
 
 db = SQLAlchemy()
-
+migrate = Migrate()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
