@@ -35,6 +35,10 @@ The OJT Time Tracker app is a personal project in which the students can keep tr
  7. Run ```docker compose exec backend flask db init``` (ONE PER PROJECT)
  8. Run ```docker compose exec backend flask db migrate -m "Initial schema creation"``` Defines the tables
  9. Run ```docker compose exec backend flask db upgrade``` Actually creating the table to the database
+ ( . git pull          ← Code only, no containers
+   . create .env       ← Create database credentials  
+   . docker-compose up ← Container created with THEIR settings
+ )
 - ### Install via git clone.
  1. In your terminal, run the  ``` git clone https://github.com/cent-ivan/ojt-time-tracker.git```
  2. Download npm, and run the ``` npm install```
