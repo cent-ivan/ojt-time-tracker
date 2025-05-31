@@ -1,4 +1,5 @@
 from datetime import datetime
+import pytz
 from ..repositories.student_dashboard_repository import StudentDashboardRepository
 
 class TimeInOutService:
@@ -17,7 +18,8 @@ class TimeInOutService:
 
     @staticmethod
     def get_time() -> dict:
-        time = datetime.now()
+        manila_tz = pytz.timezone('Asia/Manila')
+        time = datetime.now(manila_tz)
         client_time = time.strftime(f'%H:%M %p')
         server_time = time.strftime('%H:%M:%S') #for database
         return {'client': client_time, 'server':server_time}
