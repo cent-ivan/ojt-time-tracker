@@ -1,0 +1,16 @@
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+#do not inlcude the virtual environment
+
+#tailwind components
+node_modules/
+#app/static/css/main.css
+!app/static/scripts/*
