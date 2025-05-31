@@ -195,6 +195,7 @@ def index():
 @stud_dashboard_bp.app_template_filter('format_times')
 def format_time(input_time) -> str:
     try:
+        #make hours and monutes adds with 0 first, if 0 displays No Time
         result = ""
         if isinstance(input_time, (datetime, time)):
             hour = input_time.hour
