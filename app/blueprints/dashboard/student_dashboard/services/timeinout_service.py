@@ -23,10 +23,10 @@ class TimeInOutService:
         return {'client': client_time, 'server':server_time}
     
     @staticmethod
-    def get_date() -> str:
+    def get_date():
         time = datetime.now()
         date = time.strftime('%Y-%m-%d')
-        return date
+        return datetime.strptime(date, '%Y-%m-%d').date()
     
     @staticmethod
     def compute_total_hours(timein:datetime, timeout, status):
