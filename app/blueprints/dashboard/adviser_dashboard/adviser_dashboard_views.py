@@ -19,7 +19,7 @@ def index():
             #Tries if there is a search query
             search_data = request.args.get('search')
             
-            if search_data == "":
+            if search_data == None or search_data == "":
                 ojt_list = AdviserDashboardRepository.get_ojt_list(school)
                 formated_list = Formaters.format_to_dict(ojt_list)
             else:
@@ -27,6 +27,7 @@ def index():
                 search = Formaters.sanitize_search_data(search_data)
                 ojt_list = AdviserDashboardRepository.get_ojt_list_filter(school, search)
                 formated_list = Formaters.format_to_dict(ojt_list)
+                
             
             return render_template('adviser_dashboard.html', uid=id, name=name, school=school, ojt_list=formated_list)
         except:
@@ -41,8 +42,13 @@ def index():
             return redirect(url_for('adviser_home.index'))
         else:
             #adds search to search bar
-            search_data = Formaters.sanitize_search_data(search_data)
-            return redirect(url_for('adviser_home.index', search = search_data))
+            #if there is a search data formats it first then searches
+            if search_data != None:
+                search = Formaters.sanitize_search_data(search_data)
+                return redirect(url_for('adviser_home.index', search = search))
+            else:
+                search = ""
+                return redirect(url_for('adviser_home.index', search = search))
 
 
 @adviser_dashboard_bp.route('/student/<string:uid>')
