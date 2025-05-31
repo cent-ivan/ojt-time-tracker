@@ -7,7 +7,7 @@ load_dotenv()
 class PostgresDatabaseConfig():
     def __init__(self):
         self.HOST = os.getenv('HOST')
-        self.USER = os.getenv('USER')
+        self.USER = os.getenv('DB_USER')
         self.PASSWORD = os.getenv('PASSWORD')
         self.PORT = os.getenv('PORT')
         self.DATABASE_NAME = os.getenv('DATABASE_NAME')
