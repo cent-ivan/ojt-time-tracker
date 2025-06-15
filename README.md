@@ -28,7 +28,7 @@ The OJT Time Tracker app is a personal project in which the students can keep tr
 - ### Install via Docker Image
  1. Install [Docker Desktop]() first
  2. In your terminal, run the  ``` git clone https://github.com/cent-ivan/ojt-time-tracker.git```
- 3. Download npm, and run the ``` npm install```
+ 3. Download npm, and run the ``` npm install```, to generate your own node_modules directory
  4. Run this command to generate a tailwind file ``` npm dev run```
  5. Create a .env file (Contact how to setup)
  6. Run ```docker compose run -d db``` run db only
@@ -41,7 +41,7 @@ The OJT Time Tracker app is a personal project in which the students can keep tr
  )
 - ### Install via git clone.
  1. In your terminal, run the  ``` git clone https://github.com/cent-ivan/ojt-time-tracker.git```
- 2. Download npm, and run the ``` npm install```
+ 2. Download npm, and run the ``` npm install```, to generate your own node_modules directory
  3. Run this command to generate a tailwind file ``` npm dev run```
  4. Finally, run ` uv pip freeze -r requirements.txt` to install required python libraries.
  - Note: (This project uses [uv](https://docs.astral.sh/uv/getting-started/installation/) as a faster alternative to pip. if using pip, run `pip3 freeze -r requirements.txt`)
