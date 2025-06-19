@@ -16,7 +16,8 @@ class Config():
     TESTING = False
 
 class DevelopmentConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI') 
+    #SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI') 
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI_DOCKER') 
     SECRET_KEY = os.getenv('SECRET_KEY')
     PERMANENT_SESSION_LIFETIME = timedelta(hours=24)
 
