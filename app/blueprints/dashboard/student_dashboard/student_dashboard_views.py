@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta, timezone, time
-from flask import render_template,redirect,url_for, request, make_response
+from flask import render_template,redirect,url_for, request, session
 from flask_login import login_required, current_user
 
 from . import stud_dashboard_bp
@@ -27,7 +27,7 @@ def index():
         try:
             #sets cookie to expire in 20 hours
             time_expiration = datetime.now(timezone.utc) + timedelta(hours=20)
-            is_pressed_cookie = request.cookies['time_pressed'] 
+            is_pressed_cookie = session.get('time_pressed') 
 
 
             timesheet = StudentDashboardRepository.get_timesheet(current_user.studentId) #all timesheet
@@ -78,7 +78,8 @@ def index():
             timein = StudentDashboardRepository.get_timein(current_user.studentId, current_date)
             
             if timein == None:
-                response = make_response( render_template('student_dashboard.html', 
+                session['time_pressed'] = 'False'
+                return render_template('student_dashboard.html', 
                                                         uid = uid,
                                                         time_client_display = time_client_display,
                                                         name=name, 
@@ -89,18 +90,13 @@ def index():
                                                         time=f"", 
                                                         is_pressed='False', 
                                                         is_showed = 'True')
-                                                    )
-                response.set_cookie(
-                    key='time_pressed',
-                    value='False',
-                    expires = time_expiration
-                )
-                return response
+               
             else:
                 timeout = StudentDashboardRepository.get_timeout(current_user.studentId, current_date)
                 if timeout == None:
                     #app check if the user is timed in
-                    response = make_response( render_template('student_dashboard.html', 
+                    session['time_pressed'] = 'True'
+                    return render_template('student_dashboard.html', 
                                                             uid = uid,
                                                             time_client_display = time_client_display,
                                                             name=name, 
@@ -111,17 +107,12 @@ def index():
                                                             time=f"", 
                                                             is_pressed='True', 
                                                             is_showed = 'True')
-                                                        )
-                    response.set_cookie(
-                        key='time_pressed',
-                        value='True',
-                        expires = time_expiration
-                    )
-                    return response
+    
 
                 else:
                     #app check if the user is timed in
-                    response = make_response( render_template('student_dashboard.html', 
+                    session['time_pressed'] = 'False'
+                    return render_template('student_dashboard.html', 
                                                             uid = uid,
                                                             time_client_display = time_client_display,
                                                             name=name, 
@@ -132,13 +123,7 @@ def index():
                                                             time=f"", 
                                                             is_pressed='False', 
                                                             is_showed = 'True')
-                                                        )
-                    response.set_cookie(
-                        key='time_pressed',
-                        value='False',
-                        expires = time_expiration
-                    )
-                    return response
+                                                    
         
         # except:
         #     return "An Uknown Error"
@@ -153,7 +138,7 @@ def index():
         time_expiration = datetime.now(timezone.utc) + timedelta(hours=20)
 
         is_pressed = 'True'
-        is_pressed_cookie = request.cookies['time_pressed']
+        is_pressed_cookie = session.get('time_pressed')
 
         if is_pressed_cookie == is_pressed: 
             #shows time out
@@ -170,25 +155,15 @@ def index():
 
             #if the user clicked time in it displays 'Time out', then it will change it to Time In if pressed hence False == Not Pressed
             #name=username, time=show time when pressed, is_pressed=pass a bool if botton is pressed for changing the button, is_showed=pass a bool to show the time if pressed
-            response = make_response(redirect(url_for('student_home.index')))
-            response.set_cookie(
-                key='time_pressed',
-                value='False',
-                expires = time_expiration
-            )
-            return response
+            session['time_pressed'] = 'False'
+            return redirect(url_for('student_home.index'))
         else:
             #inserts time in the database
             StudentDashboardRepository.insert_timein(current_user.studentId, current_date, time_pressed['server'])
 
             #if the user clicked time out it displays 'Time In', then it will change it to Time Out if pressed hence True == Pressed
-            response = make_response(redirect(url_for('student_home.index')))
-            response.set_cookie(
-                key='time_pressed',
-                value=is_pressed,
-                expires = time_expiration
-            )
-            return response
+            session['time_pressed'] = is_pressed
+            return redirect(url_for('student_home.index'))
         
 
         
