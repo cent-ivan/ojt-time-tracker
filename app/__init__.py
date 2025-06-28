@@ -13,7 +13,7 @@ def create_app():
 
     from .extensions import db, login_manager, migrate #loads db, but not yet used
     db.init_app(app)                                            #uses db
-    migrate.init_app(app,db)
+    migrate.init_app(app,db) #optional, automatically handles creation, update and deletion of tables. 
 
     from .blueprints.central_models import all_models       #loads all of the models
 
